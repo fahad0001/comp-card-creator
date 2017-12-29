@@ -1,0 +1,7 @@
+.steps{
+    margin-top: 25px;
+}
+
+.form-horizontal .control-label {
+    text-align: left !important; /* !important added for priority in SO snippet. */
+}
