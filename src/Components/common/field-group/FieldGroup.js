@@ -1,24 +1,27 @@
 import React from 'react';
 import {FormGroup, FormControl, ControlLabel, HelpBlock, Col} from 'react-bootstrap';
+import Switch from 'react-bootstrap-switch';
+import './FieldGroup.css';
+import 'react-bootstrap-switch/dist/css/bootstrap3/react-bootstrap-switch.css';
 
 export const FieldGroup = ({id, label, help, labelSize, ...props}) => (
     <FormGroup controlId={id}>
-        <Col componentClass={ControlLabel} md={2}>
+        <Col componentClass={ControlLabel} md={4}>
             {label || ''}
         </Col>
-        <Col sm={10}>
+        <Col md={8}>
             <FormControl {...props} />
         </Col>
         {help && <HelpBlock>{help}</HelpBlock>}
     </FormGroup>
 );
 
-export const SelectGroup = ({id, label, data, ...props}) => (
+export const SelectGroup = ({id, label, data, labelSize, componentSize, noLabel, ...props}) => (
     <FormGroup controlId={id}>
-        <Col componentClass={ControlLabel} md={2}>
+        {!noLabel && <Col componentClass={ControlLabel} md={labelSize || 4}>
             {label}
-        </Col>
-        <Col sm={10}>
+        </Col>}
+        <Col md={componentSize || 8}>
             <FormControl {...props} componentClass="select">
                 {
                     data.map((val, index) => {
@@ -34,10 +37,10 @@ export const SelectGroup = ({id, label, data, ...props}) => (
 
 export const ColorGroup = ({id, label, ...props}) => (
     <FormGroup controlId={id}>
-        <Col componentClass={ControlLabel} md={2}>
+        <Col componentClass={ControlLabel} md={4}>
             {label}
         </Col>
-        <Col md={8}>
+        <Col md={6}>
             <FormControl
                 type={"text"}
                 {...props}/>
@@ -46,6 +49,17 @@ export const ColorGroup = ({id, label, ...props}) => (
             <FormControl
                 type={"color"}
                 {...props} />
+        </Col>
+    </FormGroup>
+);
+
+export const SwitchToggle = ({label, ...props}) => (
+    <FormGroup>
+        <Col componentClass={ControlLabel} md={4}>
+            {label || ''}
+        </Col>
+        <Col md={8}>
+            <Switch {...props} />
         </Col>
     </FormGroup>
 );

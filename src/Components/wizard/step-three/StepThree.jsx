@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {mapFrontSideData} from "../step-one/step-one.utils";
-import {FieldGroup, SelectGroup, ColorGroup} from "../../common/field-group/FieldGroup";
+import {FieldGroup, SelectGroup, SwitchToggle} from "../../common/field-group/FieldGroup";
 import {Form} from "react-bootstrap";
 
 import ImageCropper from "../../common/cropper/ImageCropper";
@@ -9,6 +9,7 @@ export default class StepThree extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            OnlineCardComp: true,
             fileCover: null,
             croppedImage: null,
             fileName: '',
@@ -16,6 +17,7 @@ export default class StepThree extends Component {
             selectedBGColor: '#ffffff',
             selectedFont: 'Arial',
             crop: false,
+            toggleActive: false,
             personalInfo: {
                 sex: '',
                 Height: 0,
@@ -40,6 +42,7 @@ export default class StepThree extends Component {
         this.selectedFCColorBlur = this.selectedFCColorBlur.bind(this);
 
         this.cropImage = this.cropImage.bind(this);
+        this.onToggle = this.onToggle.bind(this);
     }
 
     componentWillMount() {
@@ -118,6 +121,10 @@ export default class StepThree extends Component {
 
     }
 
+    onToggle() {
+        this.setState({ toggleActive: !this.state.toggleActive });
+    }
+
     render(){
         let style = {
             canvasStyle: {
@@ -142,42 +149,57 @@ export default class StepThree extends Component {
                         <Form horizontal>
                             <fieldset>
                                 <legend>Product Section</legend>
+                                <SwitchToggle
+                                    label="Online Comp Card"
+                                    onChange={(el, state) => this.setState({OnlineCardComp: state})}
+                                    value={this.state.OnlineCardComp}
+                                    bsSize="mini"
+                                    name="cardComp"/>
                                 <SelectGroup
                                     id="formControlsSelectTemplate"
-                                    label="Images Amount"
+                                    label="Comp Card file"
                                     onChange={this.amountImagesChange}
                                     data={mapFrontSideData()}/>
                                 <SelectGroup
                                     id="formControlsSelectTemplate"
-                                    label="Images Amount"
+                                    label="Comp Card print"
                                     onChange={this.amountImagesChange}
                                     data={mapFrontSideData()}/>
                                 <div className="row">
-                                    <div className="col-md-6">
+                                    <div className="col-md-8">
                                         <SelectGroup
                                             id="formControlsSelectTemplate"
-                                            label="Images Amount"
+                                            label="Paper"
+                                            labelSize={6}
+                                            componentSize={6}
                                             onChange={this.amountImagesChange}
                                             data={mapFrontSideData()}/>
                                     </div>
-                                    <div className="col-md-6">
+                                    <div className="col-md-4">
                                         <SelectGroup
+                                            noLabel={true}
+                                            componentSize={12}
                                             id="formControlsSelectTemplate"
-                                            label="Images Amount"
                                             onChange={this.amountImagesChange}
                                             data={mapFrontSideData()}/>
                                     </div>
                                 </div>
                                 <SelectGroup
                                     id="formControlsSelectTemplate"
-                                    label="Images Amount"
+                                    label="Production"
                                     onChange={this.amountImagesChange}
                                     data={mapFrontSideData()}/>
                                 <SelectGroup
                                     id="formControlsSelectTemplate"
-                                    label="Images Amount"
+                                    label="Branding"
                                     onChange={this.amountImagesChange}
                                     data={mapFrontSideData()}/>
+                                <SwitchToggle
+                                    label="Online Comp Card"
+                                    onChange={(el, state) => this.setState({OnlineCardComp: state})}
+                                    value={this.state.OnlineCardComp}
+                                    bsSize="mini"
+                                    name="cardComp"/>
                             </fieldset>
                             <fieldset>
                                 <legend>ORDER CONFIRMATION TO</legend>
@@ -200,25 +222,22 @@ export default class StepThree extends Component {
                                     placeholder="Enter Height"
                                     onChange={(event) => this.setState({lastName: event.target.value})}/>
                                 <div className="row">
-                                    <div className="col-md-6">
-                                        <FieldGroup
-                                            id="formControlsLast"
-                                            type="number"
-                                            label="Chest"
-                                            required
-                                            placeholder="Enter Chest"
-                                            onChange={(event) => this.setState({lastName: event.target.value})}/>
-
+                                    <div className="col-md-8">
+                                        <SelectGroup
+                                            id="formControlsSelectTemplate"
+                                            label="Images Amount"
+                                            labelSize={6}
+                                            componentSize={6}
+                                            onChange={this.amountImagesChange}
+                                            data={mapFrontSideData()}/>
                                     </div>
-                                    <div className="col-md-6">
-                                        <FieldGroup
-                                            id="formControlsLast"
-                                            type="number"
-                                            label="Waist"
-                                            required
-                                            placeholder="Enter Waist"
-                                            onChange={(event) => this.setState({lastName: event.target.value})}/>
-
+                                    <div className="col-md-4">
+                                        <SelectGroup
+                                            noLabel={true}
+                                            componentSize={12}
+                                            id="formControlsSelectTemplate"
+                                            onChange={this.amountImagesChange}
+                                            data={mapFrontSideData()}/>
                                     </div>
                                 </div>
                                 <FieldGroup
@@ -236,25 +255,22 @@ export default class StepThree extends Component {
                                     placeholder="Enter Eye Color"
                                     onChange={(event) => this.setState({lastName: event.target.value})}/>
                                 <div className="row">
-                                    <div className="col-md-6">
-                                        <FieldGroup
-                                            id="formControlsLast"
-                                            type="text"
-                                            label="Hair"
-                                            required
-                                            placeholder="Enter Hair Color"
-                                            onChange={(event) => this.setState({lastName: event.target.value})}/>
-
+                                    <div className="col-md-8">
+                                        <SelectGroup
+                                            id="formControlsSelectTemplate"
+                                            label="Images Amount"
+                                            labelSize={6}
+                                            componentSize={6}
+                                            onChange={this.amountImagesChange}
+                                            data={mapFrontSideData()}/>
                                     </div>
-                                    <div className="col-md-6">
-                                        <FieldGroup
-                                            id="formControlsLast"
-                                            type="text"
-                                            label="Shoes"
-                                            required
-                                            placeholder="Enter Shoe size"
-                                            onChange={(event) => this.setState({lastName: event.target.value})}/>
-
+                                    <div className="col-md-4">
+                                        <SelectGroup
+                                            noLabel={true}
+                                            componentSize={12}
+                                            id="formControlsSelectTemplate"
+                                            onChange={this.amountImagesChange}
+                                            data={mapFrontSideData()}/>
                                     </div>
                                 </div>
                                 <SelectGroup
@@ -273,25 +289,22 @@ export default class StepThree extends Component {
                                     placeholder="Enter Height"
                                     onChange={(event) => this.setState({lastName: event.target.value})}/>
                                 <div className="row">
-                                    <div className="col-md-6">
-                                        <FieldGroup
-                                            id="formControlsLast"
-                                            type="number"
-                                            label="Chest"
-                                            required
-                                            placeholder="Enter Chest"
-                                            onChange={(event) => this.setState({lastName: event.target.value})}/>
-
+                                    <div className="col-md-8">
+                                        <SelectGroup
+                                            id="formControlsSelectTemplate"
+                                            label="Images Amount"
+                                            labelSize={6}
+                                            componentSize={6}
+                                            onChange={this.amountImagesChange}
+                                            data={mapFrontSideData()}/>
                                     </div>
-                                    <div className="col-md-6">
-                                        <FieldGroup
-                                            id="formControlsLast"
-                                            type="number"
-                                            label="Waist"
-                                            required
-                                            placeholder="Enter Waist"
-                                            onChange={(event) => this.setState({lastName: event.target.value})}/>
-
+                                    <div className="col-md-4">
+                                        <SelectGroup
+                                            noLabel={true}
+                                            componentSize={12}
+                                            id="formControlsSelectTemplate"
+                                            onChange={this.amountImagesChange}
+                                            data={mapFrontSideData()}/>
                                     </div>
                                 </div>
                                 <FieldGroup
@@ -309,25 +322,22 @@ export default class StepThree extends Component {
                                     placeholder="Enter Eye Color"
                                     onChange={(event) => this.setState({lastName: event.target.value})}/>
                                 <div className="row">
-                                    <div className="col-md-6">
-                                        <FieldGroup
-                                            id="formControlsLast"
-                                            type="text"
-                                            label="Hair"
-                                            required
-                                            placeholder="Enter Hair Color"
-                                            onChange={(event) => this.setState({lastName: event.target.value})}/>
-
+                                    <div className="col-md-8">
+                                        <SelectGroup
+                                            id="formControlsSelectTemplate"
+                                            label="Images Amount"
+                                            labelSize={6}
+                                            componentSize={6}
+                                            onChange={this.amountImagesChange}
+                                            data={mapFrontSideData()}/>
                                     </div>
-                                    <div className="col-md-6">
-                                        <FieldGroup
-                                            id="formControlsLast"
-                                            type="text"
-                                            label="Shoes"
-                                            required
-                                            placeholder="Enter Shoe size"
-                                            onChange={(event) => this.setState({lastName: event.target.value})}/>
-
+                                    <div className="col-md-4">
+                                        <SelectGroup
+                                            noLabel={true}
+                                            componentSize={12}
+                                            id="formControlsSelectTemplate"
+                                            onChange={this.amountImagesChange}
+                                            data={mapFrontSideData()}/>
                                     </div>
                                 </div>
                                 <SelectGroup
