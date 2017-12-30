@@ -4,12 +4,12 @@ import Switch from 'react-bootstrap-switch';
 import './FieldGroup.css';
 import 'react-bootstrap-switch/dist/css/bootstrap3/react-bootstrap-switch.css';
 
-export const FieldGroup = ({id, label, help, labelSize, ...props}) => (
+export const FieldGroup = ({id, label, help, labelSize, componentSize, noLabel, ...props}) => (
     <FormGroup controlId={id}>
-        <Col componentClass={ControlLabel} md={4}>
+        {!noLabel && <Col componentClass={ControlLabel} md={labelSize || 4}>
             {label || ''}
-        </Col>
-        <Col md={8}>
+        </Col>}
+        <Col md={componentSize || 8}>
             <FormControl {...props} />
         </Col>
         {help && <HelpBlock>{help}</HelpBlock>}
