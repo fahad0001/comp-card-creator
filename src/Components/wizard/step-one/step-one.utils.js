@@ -173,6 +173,6 @@ export const mapFontData = () => [
 ];
 
 export const mapBrandingOPT = () => [
-    {key: false, value: "Without Branding"},
-    {key: true, value: "Model Platform Logo (-3$)"}
+    {key: 0, value: "Without Branding"},
+    {key: 1, value: "Model Platform Logo (-3$)"}
 ];

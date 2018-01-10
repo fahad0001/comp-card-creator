@@ -21,7 +21,7 @@ class StepOne extends Component {
             selectedFont: 'Arial',
             fontSize: 12,
             isLast: false,
-            branding: false,
+            branding: '0',
             crop: false,
             imageStyle: {},
             textStyle: {}
@@ -120,7 +120,6 @@ class StepOne extends Component {
             colorVal = this.getHexColor(event.target.value)
         }
         this.setState({selectedBGColor: colorVal});
-
     }
 
     selectedFCColorChange(event) {
@@ -156,7 +155,8 @@ class StepOne extends Component {
             brandingStyle: {
                 position: 'relative',
                 float: 'right',
-                margin: '20px'
+                margin: '20px',
+                display: parseInt(this.state.branding, 10) ? 'block' : 'none'
             }
         };
         return(
@@ -248,11 +248,9 @@ class StepOne extends Component {
                                                     {this.state.lastName}
                                                 </span>
                                             </div>
-                                            {this.state.branding &&
-                                                <div style={style.brandingStyle}>
-                                                    <img width={"100px"} src={"image/branding-logo.png"} alt="not-found"/>
-                                                </div>
-                                            }
+                                            <div style={style.brandingStyle}>
+                                                <img width={"100px"} src={"image/branding-logo.png"} alt="not-found"/>
+                                            </div>
                                         </div>
                                     </div>
                                 }

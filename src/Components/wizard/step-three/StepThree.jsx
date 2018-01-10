@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {mapFrontSideData} from "../step-one/step-one.utils";
-import {FieldGroup, SelectGroup, SwitchToggle} from "../../common/field-group/FieldGroup";
+import {CountrySelect, FieldGroup, SelectGroup, SwitchToggle} from "../../common/field-group/FieldGroup";
 import {Form} from "react-bootstrap";
 
 import ImageCropper from "../../common/cropper/ImageCropper";
@@ -11,27 +11,34 @@ export default class StepThree extends Component {
         super(props);
         this.state = {
             onlineCardComp: true,
+            printQuantity: 0,
+            paperWeight: '',
+            paperQuality: '',
+            production: '',
+            branding: false,
             individualChanges: true,
-            fileCover: null,
-            croppedImage: null,
-            fileName: '',
-            amountImages: '',
-            selectedBGColor: '#ffffff',
-            selectedFont: 'Arial',
-            crop: false,
-            toggleActive: false,
-            personalInfo: {
-                sex: '',
-                Height: 0,
-                Chest: 0,
-                Waist: 0,
-                Hip: 0,
-                Eyes: '',
-                Hair: '',
-                Shoes: 0
+            emailAddress: '',
+            firstAddress: {
+                company: '',
+                firstName: '',
+                lastName: '',
+                street: '',
+                additional: '',
+                zip: '',
+                city: '',
+                country: ''
             },
-            imageStyle: {},
-            textStyle: {}
+            differentShipping: false,
+            secondAddress: {
+                company: '',
+                firstName: '',
+                lastName: '',
+                street: '',
+                additional: '',
+                zip: '',
+                city: '',
+                country: ''
+            }
         };
 
         this.fileCoverChange = this.fileCoverChange.bind(this);
@@ -160,12 +167,11 @@ export default class StepThree extends Component {
                                 <SelectGroup
                                     id="formControlsSelectTemplate"
                                     label="Comp Card file"
-                                    onChange={this.amountImagesChange}
                                     data={[{key: true, value: 'PDF & JPG'}]}/>
                                 <SelectGroup
                                     id="formControlsSelectTemplate"
                                     label="Comp Card print"
-                                    onChange={this.amountImagesChange}
+                                    onChange={(event) => this.setState({printQuantity: event.target.value})}
                                     data={mapCardPrintQty()}/>
                                 <div className="row">
                                     <div className="col-md-8">
@@ -174,7 +180,7 @@ export default class StepThree extends Component {
                                             label="Paper"
                                             labelSize={6}
                                             componentSize={6}
-                                            onChange={(event) => console.log(event.target.value)}
+                                            onChange={(event) => this.setState({paperWeight: event.target.value})}
                                             data={[{key: 'standard', value: '300 gsm (Standard)'},
                                                     {key: 'premium', value: '350 gsm (Premium)'}]}/>
                                     </div>
@@ -183,7 +189,7 @@ export default class StepThree extends Component {
                                             noLabel={true}
                                             componentSize={12}
                                             id="formControlsSelectTemplate"
-                                            onChange={this.amountImagesChange}
+                                            onChange={(event) => this.setState({paperQuality: event.target.value})}
                                             data={[{key: 'without', value: 'without refinement'},
                                                     {key: 'lGlossy', value: 'Lamination Glossy'},
                                                     {key:'lMap', value: 'Lamination Matt'}]}/>
@@ -203,7 +209,7 @@ export default class StepThree extends Component {
                                     data={[{key: false, value: "Without Branding"},
                                             {key: true, value: "Model Platform Logo (-3$)"}]}/>
                                 <SwitchToggle
-                                    label="Online Comp Card"
+                                    label="Individual Changes"
                                     onChange={(el, state) => this.setState({individualChanges: state})}
                                     value={this.state.individualChanges}
                                     bsSize="mini"
@@ -217,7 +223,7 @@ export default class StepThree extends Component {
                                     label="E-Mail address"
                                     required
                                     placeholder="Enter E-Mail"
-                                    onChange={(event) => this.setState({lastName: event.target.value})}/>
+                                    onChange={(event) => this.setState({emailAddress: event.target.value})}/>
 
                             </fieldset>
                             <fieldset>
@@ -228,7 +234,7 @@ export default class StepThree extends Component {
                                     label="Company"
                                     required
                                     placeholder="Enter Company"
-                                    onChange={(event) => this.setState({lastName: event.target.value})}/>
+                                    onChange={(event) => Object.assign(this.state.firstAddress, {company: event.target.value})}/>
                                 <div className="row">
                                     <div className="col-md-8">
                                         <FieldGroup
@@ -239,7 +245,7 @@ export default class StepThree extends Component {
                                             componentSize={6}
                                             required
                                             placeholder="Firstname"
-                                            onChange={(event) => this.setState({lastName: event.target.value})}/>
+                                            onChange={(event) => Object.assign(this.state.firstAddress, {firstName: event.target.value})}/>
                                     </div>
                                     <div className="col-md-4">
                                         <FieldGroup
@@ -249,7 +255,7 @@ export default class StepThree extends Component {
                                             componentSize={12}
                                             required
                                             placeholder="Lastname"
-                                            onChange={(event) => this.setState({lastName: event.target.value})}/>
+                                            onChange={(event) => Object.assign(this.state.firstAddress, {lastName: event.target.value})}/>
                                     </div>
                                 </div>
                                 <FieldGroup
@@ -258,14 +264,14 @@ export default class StepThree extends Component {
                                     label="Street & Number"
                                     required
                                     placeholder="Street & Number"
-                                    onChange={(event) => this.setState({lastName: event.target.value})}/>
+                                    onChange={(event) => Object.assign(this.state.firstAddress, {street: event.target.value})}/>
                                 <FieldGroup
                                     id="formControlsLast"
                                     type="text"
                                     label="Additional"
                                     required
                                     placeholder="Enter Address (Optional)"
-                                    onChange={(event) => this.setState({lastName: event.target.value})}/>
+                                    onChange={(event) => Object.assign(this.state.firstAddress, {additional: event.target.value})}/>
                                 <div className="row">
                                     <div className="col-md-8">
                                         <FieldGroup
@@ -276,7 +282,7 @@ export default class StepThree extends Component {
                                             componentSize={6}
                                             required
                                             placeholder="Zip"
-                                            onChange={(event) => this.setState({lastName: event.target.value})}/>
+                                            onChange={(event) => Object.assign(this.state.firstAddress, {zip: event.target.value})}/>
                                     </div>
                                     <div className="col-md-4">
                                         <FieldGroup
@@ -286,97 +292,97 @@ export default class StepThree extends Component {
                                             componentSize={12}
                                             required
                                             placeholder="City"
-                                            onChange={(event) => this.setState({lastName: event.target.value})}/>
+                                            onChange={(event) => Object.assign(this.state.firstAddress, {city: event.target.value})}/>
                                     </div>
                                 </div>
-                                <SelectGroup
-                                    id="formControlsSelectTemplate"
+                                <CountrySelect
                                     label="Country"
-                                    type="country"
-                                    onChange={this.amountImagesChange}
-                                    data={mapFrontSideData()}/>
+                                    value={this.state.country}
+                                    onChange={(val) => Object.assign(this.state.firstAddress, {country: val})} />
                             </fieldset>
                             <fieldset>
                                 <legend>Address II</legend>
                                 <SwitchToggle
                                     label="Different Shipping Address"
-                                    onChange={(el, state) => this.setState({onlineCardComp: state})}
-                                    value={this.state.onlineCardComp}
+                                    onChange={(el, state) => this.setState({differentShipping: state})}
+                                    value={this.state.differentShipping}
                                     bsSize="mini"
                                     name="cardComp"/>
-                                <FieldGroup
-                                    id="formControlsLast"
-                                    type="text"
-                                    label="Company"
-                                    required
-                                    placeholder="Enter Company"
-                                    onChange={(event) => this.setState({lastName: event.target.value})}/>
-                                <div className="row">
-                                    <div className="col-md-8">
+                                {this.state.differentShipping &&
+                                    <div>
                                         <FieldGroup
                                             id="formControlsLast"
                                             type="text"
-                                            label="Name"
-                                            labelSize={6}
-                                            componentSize={6}
+                                            label="Company"
                                             required
-                                            placeholder="Firstname"
-                                            onChange={(event) => this.setState({lastName: event.target.value})}/>
-                                    </div>
-                                    <div className="col-md-4">
+                                            placeholder="Enter Company"
+                                            onChange={(event) => Object.assign(this.state.secondAddress, {company: event.target.value})}/>
+                                        <div className="row">
+                                            <div className="col-md-8">
+                                                <FieldGroup
+                                                    id="formControlsLast"
+                                                    type="text"
+                                                    label="Name"
+                                                    labelSize={6}
+                                                    componentSize={6}
+                                                    required
+                                                    placeholder="Firstname"
+                                                    onChange={(event) => Object.assign(this.state.secondAddress, {firstName: event.target.value})}/>
+                                            </div>
+                                            <div className="col-md-4">
+                                                <FieldGroup
+                                                    id="formControlsLast"
+                                                    type="text"
+                                                    noLabel={true}
+                                                    componentSize={12}
+                                                    required
+                                                    placeholder="Lastname"
+                                                    onChange={(event) => Object.assign(this.state.secondAddress, {lastName: event.target.value})}/>
+                                            </div>
+                                        </div>
                                         <FieldGroup
                                             id="formControlsLast"
                                             type="text"
-                                            noLabel={true}
-                                            componentSize={12}
+                                            label="Street & Number"
                                             required
-                                            placeholder="Lastname"
-                                            onChange={(event) => this.setState({lastName: event.target.value})}/>
-                                    </div>
-                                </div>
-                                <FieldGroup
-                                    id="formControlsLast"
-                                    type="text"
-                                    label="Street & Number"
-                                    required
-                                    placeholder="Street & Number"
-                                    onChange={(event) => this.setState({lastName: event.target.value})}/>
-                                <FieldGroup
-                                    id="formControlsLast"
-                                    type="text"
-                                    label="Additional"
-                                    required
-                                    placeholder="Enter Address (Optional)"
-                                    onChange={(event) => this.setState({lastName: event.target.value})}/>
-                                <div className="row">
-                                    <div className="col-md-8">
+                                            placeholder="Street & Number"
+                                            onChange={(event) => Object.assign(this.state.secondAddress, {street: event.target.value})}/>
                                         <FieldGroup
                                             id="formControlsLast"
                                             type="text"
-                                            label="Zip & City"
-                                            labelSize={6}
-                                            componentSize={6}
+                                            label="Additional"
                                             required
-                                            placeholder="Zip"
-                                            onChange={(event) => this.setState({lastName: event.target.value})}/>
+                                            placeholder="Enter Address (Optional)"
+                                            onChange={(event) => Object.assign(this.state.secondAddress, {additional: event.target.value})}/>
+                                        <div className="row">
+                                            <div className="col-md-8">
+                                                <FieldGroup
+                                                    id="formControlsLast"
+                                                    type="text"
+                                                    label="Zip & City"
+                                                    labelSize={6}
+                                                    componentSize={6}
+                                                    required
+                                                    placeholder="Zip"
+                                                    onChange={(event) => Object.assign(this.state.secondAddress, {zip: event.target.value})}/>
+                                            </div>
+                                            <div className="col-md-4">
+                                                <FieldGroup
+                                                    id="formControlsLast"
+                                                    type="text"
+                                                    noLabel={true}
+                                                    componentSize={12}
+                                                    required
+                                                    placeholder="City"
+                                                    onChange={(event) => Object.assign(this.state.secondAddress, {city: event.target.value})}/>
+                                            </div>
+                                        </div>
+                                        <CountrySelect
+                                            label="Country"
+                                            value={this.state.country}
+                                            onChange={(val) => Object.assign(this.state.secondAddress, {country: val})} />
                                     </div>
-                                    <div className="col-md-4">
-                                        <FieldGroup
-                                            id="formControlsLast"
-                                            type="text"
-                                            noLabel={true}
-                                            componentSize={12}
-                                            required
-                                            placeholder="City"
-                                            onChange={(event) => this.setState({lastName: event.target.value})}/>
-                                    </div>
-                                </div>
-                                <SelectGroup
-                                    id="formControlsSelectTemplate"
-                                    label="Country"
-                                    type="country"
-                                    onChange={this.amountImagesChange}
-                                    data={mapFrontSideData()}/>
+                                }
                             </fieldset>
                         </Form>
                     </div>
@@ -407,6 +413,10 @@ export default class StepThree extends Component {
                                     </div>
                                 }
                             </div>
+                        </fieldset>
+                        <fieldset>
+                            <legend>OVERVIEW</legend>
+                            <div>Fahad</div>
                         </fieldset>
                     </div>
                 </div>

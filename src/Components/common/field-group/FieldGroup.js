@@ -1,5 +1,6 @@
 import React from 'react';
 import {FormGroup, FormControl, ControlLabel, HelpBlock, Col} from 'react-bootstrap';
+import { CountryDropdown } from 'react-country-region-selector';
 import Switch from 'react-bootstrap-switch';
 import './FieldGroup.css';
 import 'react-bootstrap-switch/dist/css/bootstrap3/react-bootstrap-switch.css';
@@ -60,6 +61,17 @@ export const SwitchToggle = ({label, ...props}) => (
         </Col>
         <Col md={8}>
             <Switch {...props} />
+        </Col>
+    </FormGroup>
+);
+
+export const CountrySelect = ({label, ...props}) => (
+    <FormGroup>
+        <Col componentClass={ControlLabel} md={4}>
+            {label || ''}
+        </Col>
+        <Col md={8} >
+            <CountryDropdown classes="form-control" {...props} />
         </Col>
     </FormGroup>
 );
