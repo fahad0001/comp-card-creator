@@ -500,11 +500,125 @@ export const mapAmountImages = () => [
         canvasContainer: {
             display: 'flex',
             flexWrap: 'wrap',
-            justifyContent: 'space-evenly',
+            justifyContent: 'start',
+            paddingLeft: '10px',
             paddingTop: '20px'
         },
-        imageStyle: {},
-        textStyle: {}
+        imageDivStyle: [
+            {
+                divStyle: {
+                    display: 'flex',
+                    marginBottom: '20px',
+                    marginRight: '10px',
+                    alignItems: 'center',
+                    height: '190px',
+                    width: '150px',
+                    justifyContent: 'center',
+                    border: '1px solid #2525',
+                    backgroundColor: 'white',
+                    cursor: 'pointer'
+                },
+                imgStyle: {
+                    height: '190px',
+                    width: '150px'
+                }
+            }, {
+                divStyle: {
+                    display: 'flex',
+                    marginBottom: '20px',
+                    marginLeft: '10px',
+                    height: '190px',
+                    width: '310px',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    border: '1px solid #2525',
+                    backgroundColor: 'white',
+                    cursor: 'pointer'
+                },
+                imgStyle: {
+                    height: '190px',
+                    width: '310px'
+                }
+            }, {
+                divStyle: {
+                    display: 'flex',
+                    marginBottom: '20px',
+                    marginRight: '10px',
+                    height: '190px',
+                    width: '310px',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    border: '1px solid #2525',
+                    backgroundColor: 'white',
+                    cursor: 'pointer'
+                },
+                imgStyle: {
+                    height: '190px',
+                    width: '310px'
+                }
+            }, {
+                divStyle: {
+                    display: 'flex',
+                    marginBottom: '20px',
+                    marginLeft: '10px',
+                    height: '190px',
+                    width: '150px',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    border: '1px solid #2525',
+                    backgroundColor: 'white',
+                    cursor: 'pointer'
+                },
+                imgStyle: {
+                    height: '190px',
+                    width: '150px'
+                }
+            },  {
+                divStyle: {
+                    display: 'flex',
+                    marginBottom: '20px',
+                    marginRight: '10px',
+                    height: '190px',
+                    width: '150px',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    border: '1px solid #2525',
+                    backgroundColor: 'white',
+                    cursor: 'pointer'
+                },
+                imgStyle: {
+                    height: '190px',
+                    width: '150px'
+                }
+            }, {
+                divStyle: {
+                    display: 'flex',
+                    marginBottom: '20px',
+                    marginLeft: '10px',
+                    height: '190px',
+                    width: '310px',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    border: '1px solid #2525',
+                    backgroundColor: 'white',
+                    cursor: 'pointer'
+                },
+                imgStyle: {
+                    height: '190px',
+                    width: '310px'
+                }
+            }
+        ],
+        textStyle: {
+            display: 'flex',
+            justifyContent: 'space-around',
+            width: '420px',
+            overflow: 'hidden',
+            color: '#d9d9d9',
+            textAlign: 'left',
+            marginTop: '5px',
+            fontSize: 12
+        }
     }, {
         key: '7.1',
         value: '7 Images',
@@ -512,11 +626,142 @@ export const mapAmountImages = () => [
         canvasContainer: {
             display: 'flex',
             flexWrap: 'wrap',
-            justifyContent: 'space-evenly',
+            justifyContent: 'start',
+            paddingLeft: '10px',
             paddingTop: '20px'
         },
-        imageStyle: {},
-        textStyle: {}
+        imageDivStyle: [
+            {
+                divStyle: {
+                    display: 'flex',
+                    marginBottom: '20px',
+                    marginRight: '10px',
+                    alignItems: 'center',
+                    height: '190px',
+                    width: '150px',
+                    justifyContent: 'center',
+                    border: '1px solid #2525',
+                    backgroundColor: 'white',
+                    cursor: 'pointer'
+                },
+                imgStyle: {
+                    height: '190px',
+                    width: '150px'
+                }
+            }, {
+                divStyle: {
+                    display: 'flex',
+                    marginBottom: '20px',
+                    marginRight: '10px',
+                    height: '190px',
+                    width: '150px',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    border: '1px solid #2525',
+                    backgroundColor: 'white',
+                    cursor: 'pointer'
+                },
+                imgStyle: {
+                    height: '190px',
+                    width: '150px'
+                }
+            }, {
+                divStyle: {
+                    display: 'flex',
+                    marginBottom: '20px',
+                    marginRight: '10px',
+                    height: '190px',
+                    width: '150px',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    border: '1px solid #2525',
+                    backgroundColor: 'white',
+                    cursor: 'pointer'
+                },
+                imgStyle: {
+                    height: '190px',
+                    width: '150px'
+                }
+            }, {
+                divStyle: {
+                    display: 'flex',
+                    marginBottom: '20px',
+                    marginRight: '10px',
+                    height: '190px',
+                    width: '310px',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    border: '1px solid #2525',
+                    backgroundColor: 'white',
+                    cursor: 'pointer'
+                },
+                imgStyle: {
+                    height: '190px',
+                    width: '310px'
+                }
+            }, {
+                divStyle: {
+                    display: 'flex',
+                    marginBottom: '20px',
+                    marginLeft: '10px',
+                    height: '190px',
+                    width: '150px',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    border: '1px solid #2525',
+                    backgroundColor: 'white',
+                    cursor: 'pointer'
+                },
+                imgStyle: {
+                    height: '190px',
+                    width: '150px'
+                }
+            },  {
+                divStyle: {
+                    display: 'flex',
+                    marginBottom: '20px',
+                    marginRight: '10px',
+                    height: '190px',
+                    width: '150px',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    border: '1px solid #2525',
+                    backgroundColor: 'white',
+                    cursor: 'pointer'
+                },
+                imgStyle: {
+                    height: '190px',
+                    width: '150px'
+                }
+            }, {
+                divStyle: {
+                    display: 'flex',
+                    marginBottom: '20px',
+                    marginLeft: '10px',
+                    height: '190px',
+                    width: '310px',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    border: '1px solid #2525',
+                    backgroundColor: 'white',
+                    cursor: 'pointer'
+                },
+                imgStyle: {
+                    height: '190px',
+                    width: '310px'
+                }
+            }
+        ],
+        textStyle: {
+            display: 'flex',
+            justifyContent: 'space-around',
+            width: '420px',
+            overflow: 'hidden',
+            color: '#d9d9d9',
+            textAlign: 'left',
+            marginTop: '5px',
+            fontSize: 12
+        }
     }, {
         key: '8.1',
         value: '8 Images',
@@ -524,11 +769,159 @@ export const mapAmountImages = () => [
         canvasContainer: {
             display: 'flex',
             flexWrap: 'wrap',
-            justifyContent: 'space-evenly',
+            justifyContent: 'start',
+            paddingLeft: '10px',
             paddingTop: '20px'
         },
-        imageStyle: {},
-        textStyle: {}
+        imageDivStyle: [
+            {
+                divStyle: {
+                    display: 'flex',
+                    marginBottom: '20px',
+                    marginRight: '10px',
+                    alignItems: 'center',
+                    height: '190px',
+                    width: '150px',
+                    justifyContent: 'center',
+                    border: '1px solid #2525',
+                    backgroundColor: 'white',
+                    cursor: 'pointer'
+                },
+                imgStyle: {
+                    height: '190px',
+                    width: '150px'
+                }
+            }, {
+                divStyle: {
+                    display: 'flex',
+                    marginBottom: '20px',
+                    marginRight: '10px',
+                    height: '190px',
+                    width: '150px',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    border: '1px solid #2525',
+                    backgroundColor: 'white',
+                    cursor: 'pointer'
+                },
+                imgStyle: {
+                    height: '190px',
+                    width: '150px'
+                }
+            }, {
+                divStyle: {
+                    display: 'flex',
+                    marginBottom: '20px',
+                    marginRight: '10px',
+                    height: '190px',
+                    width: '150px',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    border: '1px solid #2525',
+                    backgroundColor: 'white',
+                    cursor: 'pointer'
+                },
+                imgStyle: {
+                    height: '190px',
+                    width: '150px'
+                }
+            }, {
+                divStyle: {
+                    display: 'flex',
+                    marginBottom: '20px',
+                    marginRight: '10px',
+                    alignItems: 'center',
+                    height: '190px',
+                    width: '150px',
+                    justifyContent: 'center',
+                    border: '1px solid #2525',
+                    backgroundColor: 'white',
+                    cursor: 'pointer'
+                },
+                imgStyle: {
+                    height: '190px',
+                    width: '150px'
+                }
+            }, {
+                divStyle: {
+                    display: 'flex',
+                    marginBottom: '20px',
+                    marginRight: '10px',
+                    height: '190px',
+                    width: '150px',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    border: '1px solid #2525',
+                    backgroundColor: 'white',
+                    cursor: 'pointer'
+                },
+                imgStyle: {
+                    height: '190px',
+                    width: '150px'
+                }
+            }, {
+                divStyle: {
+                    display: 'flex',
+                    marginBottom: '20px',
+                    marginRight: '10px',
+                    height: '190px',
+                    width: '150px',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    border: '1px solid #2525',
+                    backgroundColor: 'white',
+                    cursor: 'pointer'
+                },
+                imgStyle: {
+                    height: '190px',
+                    width: '150px'
+                }
+            }, {
+                divStyle: {
+                    display: 'flex',
+                    marginBottom: '20px',
+                    marginRight: '10px',
+                    height: '190px',
+                    width: '150px',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    border: '1px solid #2525',
+                    backgroundColor: 'white',
+                    cursor: 'pointer'
+                },
+                imgStyle: {
+                    height: '190px',
+                    width: '150px'
+                }
+            }, {
+                divStyle: {
+                    display: 'flex',
+                    marginBottom: '20px',
+                    marginLeft: '10px',
+                    height: '190px',
+                    width: '310px',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    border: '1px solid #2525',
+                    backgroundColor: 'white',
+                    cursor: 'pointer'
+                },
+                imgStyle: {
+                    height: '190px',
+                    width: '310px'
+                }
+            }
+        ],
+        textStyle: {
+            display: 'flex',
+            justifyContent: 'space-around',
+            width: '420px',
+            overflow: 'hidden',
+            color: '#d9d9d9',
+            textAlign: 'left',
+            marginTop: '5px',
+            fontSize: 12
+        }
     }, {
         key: '9.1',
         value: '9 Images',
@@ -536,10 +929,175 @@ export const mapAmountImages = () => [
         canvasContainer: {
             display: 'flex',
             flexWrap: 'wrap',
-            justifyContent: 'space-evenly',
+            justifyContent: 'start',
+            paddingLeft: '10px',
             paddingTop: '20px'
         },
-        imageStyle: {},
-        textStyle: {}
+        imageDivStyle: [
+            {
+                divStyle: {
+                    display: 'flex',
+                    marginBottom: '20px',
+                    marginRight: '10px',
+                    alignItems: 'center',
+                    height: '190px',
+                    width: '150px',
+                    justifyContent: 'center',
+                    border: '1px solid #2525',
+                    backgroundColor: 'white',
+                    cursor: 'pointer'
+                },
+                imgStyle: {
+                    height: '190px',
+                    width: '150px'
+                }
+            }, {
+                divStyle: {
+                    display: 'flex',
+                    marginBottom: '20px',
+                    marginRight: '10px',
+                    height: '190px',
+                    width: '150px',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    border: '1px solid #2525',
+                    backgroundColor: 'white',
+                    cursor: 'pointer'
+                },
+                imgStyle: {
+                    height: '190px',
+                    width: '150px'
+                }
+            }, {
+                divStyle: {
+                    display: 'flex',
+                    marginBottom: '20px',
+                    marginRight: '10px',
+                    height: '190px',
+                    width: '150px',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    border: '1px solid #2525',
+                    backgroundColor: 'white',
+                    cursor: 'pointer'
+                },
+                imgStyle: {
+                    height: '190px',
+                    width: '150px'
+                }
+            }, {
+                divStyle: {
+                    display: 'flex',
+                    marginBottom: '20px',
+                    marginRight: '10px',
+                    alignItems: 'center',
+                    height: '190px',
+                    width: '150px',
+                    justifyContent: 'center',
+                    border: '1px solid #2525',
+                    backgroundColor: 'white',
+                    cursor: 'pointer'
+                },
+                imgStyle: {
+                    height: '190px',
+                    width: '150px'
+                }
+            }, {
+                divStyle: {
+                    display: 'flex',
+                    marginBottom: '20px',
+                    marginRight: '10px',
+                    height: '190px',
+                    width: '150px',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    border: '1px solid #2525',
+                    backgroundColor: 'white',
+                    cursor: 'pointer'
+                },
+                imgStyle: {
+                    height: '190px',
+                    width: '150px'
+                }
+            }, {
+                divStyle: {
+                    display: 'flex',
+                    marginBottom: '20px',
+                    marginRight: '10px',
+                    height: '190px',
+                    width: '150px',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    border: '1px solid #2525',
+                    backgroundColor: 'white',
+                    cursor: 'pointer'
+                },
+                imgStyle: {
+                    height: '190px',
+                    width: '150px'
+                }
+            }, {
+                divStyle: {
+                    display: 'flex',
+                    marginBottom: '20px',
+                    marginRight: '10px',
+                    height: '190px',
+                    width: '150px',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    border: '1px solid #2525',
+                    backgroundColor: 'white',
+                    cursor: 'pointer'
+                },
+                imgStyle: {
+                    height: '190px',
+                    width: '150px'
+                }
+            }, {
+                divStyle: {
+                    display: 'flex',
+                    marginBottom: '20px',
+                    marginRight: '10px',
+                    height: '190px',
+                    width: '150px',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    border: '1px solid #2525',
+                    backgroundColor: 'white',
+                    cursor: 'pointer'
+                },
+                imgStyle: {
+                    height: '190px',
+                    width: '150px'
+                }
+            }, {
+                divStyle: {
+                    display: 'flex',
+                    marginBottom: '20px',
+                    marginRight: '10px',
+                    height: '190px',
+                    width: '150px',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    border: '1px solid #2525',
+                    backgroundColor: 'white',
+                    cursor: 'pointer'
+                },
+                imgStyle: {
+                    height: '190px',
+                    width: '150px'
+                }
+            }
+        ],
+        textStyle: {
+            display: 'flex',
+            justifyContent: 'space-around',
+            width: '420px',
+            overflow: 'hidden',
+            color: '#d9d9d9',
+            textAlign: 'left',
+            marginTop: '5px',
+            fontSize: 12
+        }
     }
 ];
