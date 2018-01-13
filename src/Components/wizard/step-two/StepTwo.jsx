@@ -43,6 +43,8 @@ export default class StepTwo extends Component {
 
         this.onClickImage = this.onClickImage.bind(this);
         this.cropImage = this.cropImage.bind(this);
+
+        this.textDataRender = this.textDataRender.bind(this);
     }
 
     componentWillMount() {
@@ -162,6 +164,20 @@ export default class StepTwo extends Component {
 
         this.setState({textStyle: temp});
 
+    }
+
+    textDataRender(textStyle) {
+        return (
+            <ul style={textStyle}>
+                <li>Height: {this.state.personalInfo.height}</li>
+                <li>Chest: {this.state.personalInfo.chest}</li>
+                <li>Waist: {this.state.personalInfo.waist}</li>
+                <li>Hip: {this.state.personalInfo.hip}</li>
+                <li>Eyes: {this.state.personalInfo.eyes}</li>
+                <li>Hair: {this.state.personalInfo.hair}</li>
+                <li>Shoes: {this.state.personalInfo.shoes}</li>
+            </ul>
+        );
     }
 
     render(){
@@ -306,8 +322,7 @@ export default class StepTwo extends Component {
                                                 onClickImage={this.onClickImage}
                                                 containerStyle={this.state.amountImages.canvasContainer}
                                                 imageStyleData={this.state.imageStyle}
-                                                textStyleData={style.canvasTextStyle}
-                                                textData={this.state.personalInfo}
+                                                textDataRender={this.textDataRender(style.canvasTextStyle)}
                                             />
                                             {/*<div style={{position: "absolute"}}>{this.state.croppedImage ? this.renderImage(this.state.imageStyle) : ''}</div>*/}
                                             {/*<ul style={style.canvasTextStyle}>*/}

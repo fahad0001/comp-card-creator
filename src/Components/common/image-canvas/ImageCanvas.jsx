@@ -1,6 +1,6 @@
 import React from 'react';
 
-export const ImageCanvas = ({containerStyle, imageStyleData, textStyleData, textData, onClickImage, imageStore}) => (
+export const ImageCanvas = ({containerStyle, imageStyleData, textDataRender, onClickImage, imageStore}) => (
     <div style={containerStyle}>
         {imageStore.map((image, key) => {
             return (
@@ -9,15 +9,6 @@ export const ImageCanvas = ({containerStyle, imageStyleData, textStyleData, text
                 </div>
             );
         })}
-        <ul style={textStyleData}>
-            <li>Sex: {textData.sex}</li>
-            <li>Height: {textData.height}</li>
-            <li>Chest: {textData.chest}</li>
-            <li>Waist: {textData.waist}</li>
-            <li>Hip: {textData.hip}</li>
-            <li>Eyes: {textData.eyes}</li>
-            <li>Hair: {textData.hair}</li>
-            <li>Shoes: {textData.shoes}</li>
-        </ul>
+        {textDataRender}
     </div>
 );

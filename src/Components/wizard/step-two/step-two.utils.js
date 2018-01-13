@@ -171,30 +171,35 @@ export const mapAmountImages = () => [
             display: 'flex',
             flexWrap: 'wrap',
             justifyContent: 'start',
-            paddingLeft: '20px',
-            paddingTop: '20px'
+            flexDirection: 'row-reverse',
+            paddingLeft: '10px',
+            paddingTop: '15px'
         },
         imageDivStyle: [
             {
                 divStyle: {
                     display: 'flex',
-                    marginBottom: '40px',
+                    marginBottom: '25px',
+                    marginLeft: '20px',
+                    marginRight: '10px',
                     alignItems: 'center',
+                    height: '300px',
+                    width: '230px',
                     justifyContent: 'center',
                     border: '1px solid #2525',
                     backgroundColor: 'white',
                     cursor: 'pointer'
                 },
                 imgStyle: {
-                    height: '500px',
-                    width: '225px'
+                    height: '300px',
+                    width: '230px'
                 }
             }, {
                 divStyle: {
                     display: 'flex',
-                    marginBottom: '40px',
-                    height: '290px',
-                    width: '220px',
+                    marginBottom: '30px',
+                    height: '300px',
+                    width: '230px',
                     alignItems: 'center',
                     justifyContent: 'center',
                     border: '1px solid #2525',
@@ -202,8 +207,25 @@ export const mapAmountImages = () => [
                     cursor: 'pointer'
                 },
                 imgStyle: {
-                    height: '290px',
-                    width: '225px'
+                    height: '300px',
+                    width: '230px'
+                }
+            }, {
+                divStyle: {
+                    display: 'flex',
+                    marginBottom: '30px',
+                    marginRight: '10px',
+                    height: '300px',
+                    width: '230px',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    border: '1px solid #2525',
+                    backgroundColor: 'white',
+                    cursor: 'pointer'
+                },
+                imgStyle: {
+                    height: '300px',
+                    width: '230px'
                 }
             }
         ],
@@ -212,7 +234,7 @@ export const mapAmountImages = () => [
             color: '#d9d9d9',
             textAlign: 'left',
             listStyleType: 'none',
-            marginRight: '150px',
+            marginRight: '142px',
             fontSize: 15
         }
     }, {
@@ -222,11 +244,73 @@ export const mapAmountImages = () => [
         canvasContainer: {
             display: 'flex',
             flexWrap: 'wrap',
-            justifyContent: 'space-evenly',
-            paddingTop: '20px'
+            justifyContent: 'start',
+            paddingLeft: '10px',
+            paddingTop: '15px'
         },
-        imageStyle: {},
-        textStyle: {}
+        imageDivStyle: [
+            {
+                divStyle: {
+                    display: 'flex',
+                    marginBottom: '20px',
+                    marginRight: '10px',
+                    alignItems: 'center',
+                    height: '300px',
+                    width: '230px',
+                    justifyContent: 'center',
+                    border: '1px solid #2525',
+                    backgroundColor: 'white',
+                    cursor: 'pointer'
+                },
+                imgStyle: {
+                    height: '300px',
+                    width: '230px'
+                }
+            }, {
+                divStyle: {
+                    display: 'flex',
+                    marginBottom: '20px',
+                    marginLeft: '10px',
+                    height: '300px',
+                    width: '230px',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    border: '1px solid #2525',
+                    backgroundColor: 'white',
+                    cursor: 'pointer'
+                },
+                imgStyle: {
+                    height: '300px',
+                    width: '230px'
+                }
+            }, {
+                divStyle: {
+                    display: 'flex',
+                    marginBottom: '20px',
+                    marginRight: '10px',
+                    height: '300px',
+                    width: '500px',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    border: '1px solid #2525',
+                    backgroundColor: 'white',
+                    cursor: 'pointer'
+                },
+                imgStyle: {
+                    height: '300px',
+                    width: '500px'
+                }
+            }
+        ],
+        textStyle: {
+            display: 'flex',
+            justifyContent: 'space-around',
+            width: '420px',
+            overflow: 'hidden',
+            color: '#d9d9d9',
+            textAlign: 'left',
+            fontSize: 12
+        }
     }, {
         key: '4.1',
         value: '4 Images',
@@ -234,11 +318,90 @@ export const mapAmountImages = () => [
         canvasContainer: {
             display: 'flex',
             flexWrap: 'wrap',
-            justifyContent: 'space-evenly',
-            paddingTop: '20px'
+            justifyContent: 'start',
+            paddingLeft: '10px',
+            paddingTop: '15px'
         },
-        imageStyle: {},
-        textStyle: {}
+        imageDivStyle: [
+            {
+                divStyle: {
+                    display: 'flex',
+                    marginBottom: '20px',
+                    marginRight: '10px',
+                    alignItems: 'center',
+                    height: '300px',
+                    width: '230px',
+                    justifyContent: 'center',
+                    border: '1px solid #2525',
+                    backgroundColor: 'white',
+                    cursor: 'pointer'
+                },
+                imgStyle: {
+                    height: '300px',
+                    width: '230px'
+                }
+            }, {
+                divStyle: {
+                    display: 'flex',
+                    marginBottom: '20px',
+                    marginLeft: '10px',
+                    height: '300px',
+                    width: '230px',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    border: '1px solid #2525',
+                    backgroundColor: 'white',
+                    cursor: 'pointer'
+                },
+                imgStyle: {
+                    height: '300px',
+                    width: '230px'
+                }
+            }, {
+                divStyle: {
+                    display: 'flex',
+                    marginBottom: '20px',
+                    marginRight: '10px',
+                    height: '300px',
+                    width: '230px',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    border: '1px solid #2525',
+                    backgroundColor: 'white',
+                    cursor: 'pointer'
+                },
+                imgStyle: {
+                    height: '300px',
+                    width: '230px'
+                }
+            }, {
+                divStyle: {
+                    display: 'flex',
+                    marginBottom: '20px',
+                    marginLeft: '10px',
+                    height: '300px',
+                    width: '230px',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    border: '1px solid #2525',
+                    backgroundColor: 'white',
+                    cursor: 'pointer'
+                },
+                imgStyle: {
+                    height: '300px',
+                    width: '230px'
+                }
+            }
+        ],
+        textStyle: {
+            display: 'flex',
+            justifyContent: 'space-around',
+            width: '420px',
+            overflow: 'hidden',
+            color: '#d9d9d9',
+            textAlign: 'left',
+            fontSize: 12
+        }
     }, {
         key: '4.2',
         value: '4 Images B',
@@ -246,11 +409,90 @@ export const mapAmountImages = () => [
         canvasContainer: {
             display: 'flex',
             flexWrap: 'wrap',
-            justifyContent: 'space-evenly',
-            paddingTop: '20px'
+            justifyContent: 'start',
+            paddingLeft: '10px',
+            paddingTop: '15px'
         },
-        imageStyle: {},
-        textStyle: {}
+        imageDivStyle: [
+            {
+                divStyle: {
+                    display: 'flex',
+                    marginBottom: '20px',
+                    marginRight: '10px',
+                    alignItems: 'center',
+                    height: '300px',
+                    width: '230px',
+                    justifyContent: 'center',
+                    border: '1px solid #2525',
+                    backgroundColor: 'white',
+                    cursor: 'pointer'
+                },
+                imgStyle: {
+                    height: '300px',
+                    width: '230px'
+                }
+            }, {
+                divStyle: {
+                    display: 'flex',
+                    marginBottom: '20px',
+                    marginLeft: '10px',
+                    height: '300px',
+                    width: '230px',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    border: '1px solid #2525',
+                    backgroundColor: 'white',
+                    cursor: 'pointer'
+                },
+                imgStyle: {
+                    height: '300px',
+                    width: '230px'
+                }
+            }, {
+                divStyle: {
+                    display: 'flex',
+                    marginBottom: '20px',
+                    marginRight: '10px',
+                    height: '300px',
+                    width: '260px',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    border: '1px solid #2525',
+                    backgroundColor: 'white',
+                    cursor: 'pointer'
+                },
+                imgStyle: {
+                    height: '300px',
+                    width: '260px'
+                }
+            }, {
+                divStyle: {
+                    display: 'flex',
+                    marginBottom: '20px',
+                    marginLeft: '10px',
+                    height: '300px',
+                    width: '200px',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    border: '1px solid #2525',
+                    backgroundColor: 'white',
+                    cursor: 'pointer'
+                },
+                imgStyle: {
+                    height: '300px',
+                    width: '200px'
+                }
+            }
+        ],
+        textStyle: {
+            display: 'flex',
+            justifyContent: 'space-around',
+            width: '420px',
+            overflow: 'hidden',
+            color: '#d9d9d9',
+            textAlign: 'left',
+            fontSize: 12
+        }
     }, {
         key: '6.1',
         value: '6 Images',
