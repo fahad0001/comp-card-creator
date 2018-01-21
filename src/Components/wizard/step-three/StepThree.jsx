@@ -1,9 +1,8 @@
 import React, {Component} from 'react';
 import {mapFrontSideData} from "../step-one/step-one.utils";
 import {CountrySelect, FieldGroup, SelectGroup, SwitchToggle} from "../../common/field-group/FieldGroup";
-import {Form} from "react-bootstrap";
+import {Form, Pager} from "react-bootstrap";
 
-import ImageCropper from "../../common/cropper/ImageCropper";
 import {mapCardPrintQty} from "./step-three.utils";
 
 export default class StepThree extends Component {
@@ -38,14 +37,12 @@ export default class StepThree extends Component {
                 zip: '',
                 city: '',
                 country: ''
-            }
+            },
+            imgCheck: {}
         };
 
         this.fileCoverChange = this.fileCoverChange.bind(this);
         this.amountImagesChange = this.amountImagesChange.bind(this);
-
-        this.selectedBGColorChange = this.selectedBGColorChange.bind(this);
-        this.selectedBGColorBlur = this.selectedBGColorBlur.bind(this);
 
         this.selectedFCColorChange = this.selectedFCColorChange.bind(this);
         this.selectedFCColorBlur = this.selectedFCColorBlur.bind(this);
@@ -58,6 +55,29 @@ export default class StepThree extends Component {
         const tempValue = mapFrontSideData()[0];
         this.setState({imageStyle: tempValue.imageStyle});
         this.setState({textStyle: tempValue.textStyle});
+    }
+
+    componentDidMount() {
+        let canvas1 = document.getElementById('preview-one');
+        const canvas2 = document.getElementById('preview-two');
+
+        let imageObjOne = new Image();
+        let imageObjTwo = new Image();
+
+        imageObjOne.onload = function() {
+            canvas1.getContext("2d").drawImage(imageObjOne, 0, 0, 500, 700, -5, 0, 305, 150);
+        };
+
+
+        imageObjTwo.onload = function() {
+            canvas2.getContext("2d").drawImage(imageObjTwo, 0, 0, 500, 700, -5, 0, 305, 150);
+        };
+
+        imageObjOne.src = this.props.stepOneImage;
+        imageObjTwo.src = this.props.stepTwoImage;
+
+        //canvas1.getContext("2d").drawImage(this.props.stepOneImage, 0, 0, 250, 250);
+        //canvas2.getContext("2d").drawImage(this.props.stepTwoState.imageData, 0, 0, 250, 250);
     }
 
     cropImage(image){
@@ -99,18 +119,6 @@ export default class StepThree extends Component {
         return (colors.length >= 3) ? '#' + (((1 << 24) + (colors[0] << 16) + (colors[1] << 8) + colors[2]).toString(16).substr(1)) : false;
     }
 
-    selectedBGColorChange(event) {
-        this.setState({selectedBGColor: event.target.value});
-    }
-    selectedBGColorBlur(event) {
-        let colorVal = event.target.value;
-        if(!colorVal.startsWith('#', 0)) {
-            colorVal = this.getHexColor(event.target.value)
-        }
-        this.setState({selectedBGColor: colorVal});
-
-    }
-
     selectedFCColorChange(event) {
         let temp = Object.assign({}, this.state.textStyle);
         temp.color = event.target.value;
@@ -134,21 +142,33 @@ export default class StepThree extends Component {
         this.setState({ toggleActive: !this.state.toggleActive });
     }
 
+    onNextClick() {
+        this.props.onNextClick(3, JSON.parse(JSON.stringify(this.state)));
+    }
+    onPrevClick() {
+        this.props.onPrevClick(3);
+    }
+
     render(){
-        let style = {
-            canvasStyle: {
-                backgroundColor: this.state.selectedBGColor
+        let style={
+            canvasSize: {
+                marginLeft: '10%',
+                width: '600px',
+                height: '410px',
             },
-            canvasTextStyle: {
-                position:'absolute',
-                zIndex: '1000',
-                fontFamily: this.state.selectedFont,
-                ...this.state.textStyle,
+            canvasStyle: {
+                width: '260px',
+                height: '370px',
+                margin: '10px',
+                padding: '0px',
+                boxShadow: '0px 0px 22px 3px rgba(0, 0, 0, 0.35)'
             },
             brandingStyle: {
                 position: 'relative',
+                zIndex: '1000',
                 float: 'right',
-                margin: '20px'
+                margin: '20px',
+                display: this.state.branding ? 'block' : 'none'
             }
         };
         return(
@@ -389,36 +409,28 @@ export default class StepThree extends Component {
                     <div className="col-md-6">
                         <fieldset>
                             <legend>Preview</legend>
-                            <div className="canvas-size">
-                                {this.state.fileCover && !this.state.crop ?
-                                    <ImageCropper
-                                        image={this.state.fileCover}
-                                        cropImage={this.cropImage}/>
-                                    :
-                                    <div style={style.canvasStyle} className="canvas-style">
-                                        <div>
-                                            <div style={{position: "absolute"}}>{this.state.croppedImage ? this.renderImage(this.state.imageStyle) : ''}</div>
-                                            <div style={style.canvasTextStyle}>
-                                                {this.state.firstName + ' '}
-                                                <span style={{fontSize: this.state.isLast ? (this.state.fontSize * 2): this.state.fontSize + 'px'}}>
-                                                    {this.state.lastName}
-                                                </span>
-                                            </div>
-                                            {this.state.branding &&
-                                            <div style={style.brandingStyle}>
-                                                <img width={"100px"} src={"image/branding-logo.png"} alt="not-found"/>
-                                            </div>
-                                            }
-                                        </div>
-                                    </div>
-                                }
+                            <div style={style.canvasSize} className="row">
+                                <div style={style.canvasStyle} className="col-md-6">
+                                    <canvas style={{width: '260px', height: '370px'}} id="preview-one" />
+                                </div>
+                                <div style={style.canvasStyle} className="col-md-6">
+                                    <canvas style={{width: '260px', height: '370px'}} id="preview-two" />
+                                </div>
                             </div>
                         </fieldset>
+                        <p><strong>Notice:</strong> In this preview you see a rendered version of your Comp Card. Please check, if all your information are shown correctly</p><br/>
                         <fieldset>
                             <legend>OVERVIEW</legend>
                             <div>Fahad</div>
                         </fieldset>
                     </div>
+                </div>
+                <hr/>
+                <div style={{marginTop: '-25px'}} className="container-fluid">
+                    <Pager>
+                        <Pager.Item previous onClick={() => this.onPrevClick()}>&larr; Previous</Pager.Item>
+                        <Pager.Item next onClick={() => this.onNextClick()}>Next &rarr;</Pager.Item>
+                    </Pager>
                 </div>
             </div>
         );

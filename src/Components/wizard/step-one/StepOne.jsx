@@ -2,10 +2,13 @@ import React, {Component} from 'react';
 import "./StepOne.css";
 import WebFont from 'webfontloader';
 import {FieldGroup, SelectGroup, ColorGroup} from "../../common/field-group/FieldGroup";
-import {Form} from "react-bootstrap";
+import {Form, Pager} from "react-bootstrap";
 
 import ImageCropper from "../../common/cropper/ImageCropper";
 import {mapBrandingOPT, mapFontData, mapFrontSideData} from "./step-one.utils";
+
+import html2canvas from 'html2canvas';
+import jsPDF from 'jspdf';
 
 class StepOne extends Component {
     constructor(props) {
@@ -24,7 +27,10 @@ class StepOne extends Component {
             branding: '0',
             crop: false,
             imageStyle: {},
-            textStyle: {}
+            textStyle: {},
+            screenShot: {},
+            nextEventEnable: false,
+            cropError: false
         };
 
         this.fileCoverChange = this.fileCoverChange.bind(this);
@@ -39,6 +45,8 @@ class StepOne extends Component {
         this.selectedFCColorBlur = this.selectedFCColorBlur.bind(this);
 
         this.cropImage = this.cropImage.bind(this);
+
+        this.formSubmit = this.formSubmit.bind(this);
     }
 
     componentWillMount() {
@@ -51,7 +59,7 @@ class StepOne extends Component {
 
     cropImage(image){
         this.setState({croppedImage: image});
-        this.setState({crop: true})
+        this.setState({crop: true, cropError: false})
     }
 
     renderImage(imageStyle){
@@ -141,6 +149,27 @@ class StepOne extends Component {
 
     }
 
+    onNextClick() {
+        html2canvas(document.getElementById('previewCanvas')).then((canvas) => {
+            // const pdf = new jsPDF();
+            // pdf.addImage(imgData, 'JPEG', 0, 0, 500,700);
+            // pdf.save("download.pdf");
+            this.props.onNextClick(1, JSON.parse(JSON.stringify(this.state)), canvas.toDataURL('image/jpg'));
+        });
+    }
+    onPrevClick() {
+        this.props.onPrevClick(1);
+    }
+
+    formSubmit(event) {
+        event.preventDefault();
+        if(this.state.crop) {
+            this.setState({cropError: false, nextEventEnable: true})
+        } else {
+            this.setState({cropError: true})
+        }
+    }
+
     render(){
         let style = {
             canvasStyle: {
@@ -154,16 +183,20 @@ class StepOne extends Component {
             },
             brandingStyle: {
                 position: 'relative',
+                zIndex: '1000',
                 float: 'right',
                 margin: '20px',
                 display: parseInt(this.state.branding, 10) ? 'block' : 'none'
+            },
+            nextButtonStyle: {
+                pointerEvents: this.state.nextEventEnable ? 'auto' : 'none'
             }
         };
         return(
             <div>
                 <div className="row">
                     <div className="col-md-6">
-                        <Form horizontal>
+                        <Form horizontal onSubmit={this.formSubmit}>
                             <fieldset>
                                 <legend>Personal Data</legend>
                                 <FieldGroup
@@ -228,7 +261,21 @@ class StepOne extends Component {
                                     onChange={(event) => this.setState({branding: event.target.value})}
                                     data={mapBrandingOPT()}/>
                             </fieldset>
+                            <br/>
+                            <FieldGroup
+                                type="submit"
+                                labelSize={6}
+                                componentSize={4}
+                                value="Validate"
+                                className="btn-success"
+                                required/>
                         </Form>
+                        {this.state.nextEventEnable && !this.state.cropError && <div className="col-md-offset-4">
+                            <h5 style={{color: 'red'}}>*Validation Successful Click on Next</h5>
+                        </div>}
+                        {this.state.cropError && <div className="col-md-offset-4">
+                            <h5 style={{color: 'red'}}>*Please Complete Crop Operation First</h5>
+                        </div>}
                     </div>
                     <div className="col-md-6">
                         <fieldset>
@@ -239,8 +286,11 @@ class StepOne extends Component {
                                         image={this.state.fileCover}
                                         cropImage={this.cropImage}/>
                                     :
-                                    <div style={style.canvasStyle} className="canvas-style">
-                                        <div>
+                                    <div>
+                                        <div style={style.brandingStyle}>
+                                            <img width={"100px"} src={"image/branding-logo.png"} alt="not-found"/>
+                                        </div>
+                                        <div id="previewCanvas" style={style.canvasStyle} className="canvas-style">
                                             <div style={{position: "absolute"}}>{this.state.croppedImage ? this.renderImage(this.state.imageStyle) : ''}</div>
                                             <div style={style.canvasTextStyle}>
                                                 {this.state.firstName + ' '}
@@ -248,15 +298,20 @@ class StepOne extends Component {
                                                     {this.state.lastName}
                                                 </span>
                                             </div>
-                                            <div style={style.brandingStyle}>
-                                                <img width={"100px"} src={"image/branding-logo.png"} alt="not-found"/>
-                                            </div>
                                         </div>
                                     </div>
+
                                 }
                             </div>
                         </fieldset>
                     </div>
+                </div>
+                <hr/>
+                <div style={{marginTop: '-25px'}} className="container-fluid">
+                    <Pager>
+                        <Pager.Item previous onClick={() => this.onPrevClick()}>&larr; Previous</Pager.Item>
+                        <Pager.Item next style={style.nextButtonStyle} onClick={() => this.onNextClick()}>Next &rarr;</Pager.Item>
+                    </Pager>
                 </div>
             </div>
         );

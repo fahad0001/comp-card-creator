@@ -1,10 +1,11 @@
 import React, {Component} from 'react';
 import {mapAmountImages} from "./step-two.utils";
 import {FieldGroup, SelectGroup, ColorGroup} from "../../common/field-group/FieldGroup";
-import {Form} from "react-bootstrap";
+import {Form, Pager} from "react-bootstrap";
 
 import ImageCropper from "../../common/cropper/ImageCropper";
 import {ImageCanvas} from "../../common/image-canvas/ImageCanvas";
+import html2canvas from "html2canvas";
 
 export default class StepTwo extends Component {
     constructor(props) {
@@ -29,8 +30,12 @@ export default class StepTwo extends Component {
             otherInfo: '',
             selectedIndex: 0,
             imageStyle: [],
-            textStyle: {}
+            textStyle: {},
+            nextEventEnable: false,
+            cropError: false,
+            pictureError: false
         };
+
 
         this.fileCoverChange = this.fileCoverChange.bind(this);
         this.amountImagesChange = this.amountImagesChange.bind(this);
@@ -45,6 +50,8 @@ export default class StepTwo extends Component {
         this.cropImage = this.cropImage.bind(this);
 
         this.textDataRender = this.textDataRender.bind(this);
+
+        this.formSubmit = this.formSubmit.bind(this);
     }
 
     componentWillMount() {
@@ -68,14 +75,14 @@ export default class StepTwo extends Component {
 
     onClickImage(index) {
         this.refs.fileUploader.click();
-        this.setState({selectedIndex: index});
+        this.setState({selectedIndex: index, pictureError: false});
     }
 
     cropImage(image){
         let temp = Object.assign([], this.state.croppedImage);
         temp[this.state.selectedIndex] = image;
         this.setState({croppedImage: temp});
-        this.setState({crop: false})
+        this.setState({crop: false, cropError: false})
     }
 
     renderImage(imageStyle){
@@ -86,7 +93,6 @@ export default class StepTwo extends Component {
 
     fileCoverChange(event) {
         if(event.target.files && event.target.files[0]) {
-
             let tempStyle = JSON.parse(JSON.stringify(this.state.imageStyle)); // this is to change the style of image from default to defined in util.
             tempStyle[this.state.selectedIndex] = JSON.parse(JSON.stringify(this.state.amountImages.imageDivStyle[this.state.selectedIndex]));
             this.setState({imageStyle: tempStyle}); //this will change the style from default to defined.
@@ -180,6 +186,30 @@ export default class StepTwo extends Component {
         );
     }
 
+    onNextClick() {
+        html2canvas(document.getElementById('previewCanvas')).then((canvas) => {
+            // const pdf = new jsPDF();
+            // pdf.addImage(imgData, 'JPEG', 0, 0, 500,700);
+            // pdf.save("download.pdf");
+            this.props.onNextClick(2, JSON.parse(JSON.stringify(this.state)), canvas.toDataURL('image/png'));
+        });
+    }
+    onPrevClick() {
+        this.props.onPrevClick(2);
+    }
+
+    formSubmit(event) {
+        event.preventDefault();
+        let pictureErrorCheck = this.state.croppedImage.some(item => item === 'image/add-image.png');
+        if(!this.state.crop && !pictureErrorCheck) { // logic with stepOne and stepTwo is not persistant and has to be change
+            this.setState({cropError: false, pictureError: false, nextEventEnable: true});
+        } else if(this.state.crop) {
+            this.setState({cropError: true});
+        } else {
+            this.setState({pictureError: true});
+        }
+    }
+
     render(){
         let style = {
             canvasStyle: {
@@ -194,12 +224,15 @@ export default class StepTwo extends Component {
                 float: 'right',
                 margin: '20px'
             },
+            nextButtonStyle: {
+                pointerEvents: this.state.nextEventEnable ? 'auto' : 'none'
+            }
         };
         return(
             <div>
                 <div className="row">
                     <div className="col-md-6">
-                        <Form horizontal>
+                        <Form horizontal onSubmit={this.formSubmit}>
                             <fieldset>
                                 <legend>Design</legend>
                                 <SelectGroup
@@ -292,16 +325,29 @@ export default class StepTwo extends Component {
                                     required
                                     onChange={(event) => this.setState({otherInfo: event.target.value})}/>
                             </fieldset>
+                            <br/>
+                            <FieldGroup
+                                type="submit"
+                                labelSize={6}
+                                componentSize={4}
+                                value="Validate"
+                                className="btn-success"
+                                required/>
                         </Form>
+                        {this.state.nextEventEnable && !this.state.cropError && <div className="col-md-offset-4">
+                            <h5 style={{color: 'red'}}>*Validation Successful Click on Next</h5>
+                        </div>}
+                        {this.state.cropError && <div className="col-md-offset-4">
+                            <h5 style={{color: 'red'}}>*Please Complete Crop Operation First</h5>
+                        </div>}
+                        {this.state.pictureError && <div className="col-md-offset-4">
+                            <h5 style={{color: 'red'}}>*Please Upload Required Amount of Pictures</h5>
+                        </div>}
                     </div>
                     <div className="col-md-6">
                         <fieldset>
                             <legend>Preview</legend>
                             <div className="canvas-size">
-                                {/*<ImageCanvas*/}
-                                    {/*imageStore={this.state.fileCover}*/}
-                                    {/*onClickImage={this.onClickImage}*/}
-                                {/*/>*/}
                                 <input
                                     id="formControlsFile"
                                     type="file"
@@ -315,7 +361,7 @@ export default class StepTwo extends Component {
                                         image={this.state.fileCover[this.state.selectedIndex]}
                                         cropImage={this.cropImage}/>
                                     :
-                                    <div style={style.canvasStyle} className="canvas-style">
+                                    <div id="previewCanvas" style={style.canvasStyle} className="canvas-style">
                                         <div>
                                             <ImageCanvas
                                                 imageStore={this.state.croppedImage}
@@ -324,17 +370,6 @@ export default class StepTwo extends Component {
                                                 imageStyleData={this.state.imageStyle}
                                                 textDataRender={this.textDataRender(style.canvasTextStyle)}
                                             />
-                                            {/*<div style={{position: "absolute"}}>{this.state.croppedImage ? this.renderImage(this.state.imageStyle) : ''}</div>*/}
-                                            {/*<ul style={style.canvasTextStyle}>*/}
-                                                {/*<li>Sex: {this.state.personalInfo.sex}</li>*/}
-                                                {/*<li>Height: {this.state.personalInfo.height}</li>*/}
-                                                {/*<li>Chest: {this.state.personalInfo.chest}</li>*/}
-                                                {/*<li>Waist: {this.state.personalInfo.waist}</li>*/}
-                                                {/*<li>Hip: {this.state.personalInfo.hip}</li>*/}
-                                                {/*<li>Eyes: {this.state.personalInfo.eyes}</li>*/}
-                                                {/*<li>Hair: {this.state.personalInfo.hair}</li>*/}
-                                                {/*<li>Shoes: {this.state.personalInfo.shoes}</li>*/}
-                                            {/*</ul>*/}
                                             {this.state.branding &&
                                             <div style={style.brandingStyle}>
                                                 <img width={"100px"} src={"image/branding-logo.png"} alt="not-found"/>
@@ -346,6 +381,13 @@ export default class StepTwo extends Component {
                             </div>
                         </fieldset>
                     </div>
+                </div>
+                <hr/>
+                <div style={{marginTop: '-25px'}} className="container-fluid">
+                    <Pager>
+                        <Pager.Item previous onClick={() => this.onPrevClick()}>&larr; Previous</Pager.Item>
+                        <Pager.Item next style={style.nextButtonStyle} onClick={() => this.onNextClick()}>Next &rarr;</Pager.Item>
+                    </Pager>
                 </div>
             </div>
         );
