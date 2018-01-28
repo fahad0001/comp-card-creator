@@ -566,6 +566,7 @@ export default class StepThree extends Component {
                                 <div className="row">
                                     <div className="col-md-6">
                                         <StripePayment
+                                            email={this.state.emailAddress}
                                             payment={this.calculatePriceWithTax()}
                                             returnedToken={token => this.submitUserInfo(token)}/>
                                     </div>

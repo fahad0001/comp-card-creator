@@ -14,7 +14,7 @@ export default class StripePayment extends Component {
         };
         return (
             <StripeCheckout
-                email={'fahadmir0001@gmail.com'}
+                email={this.props.email}
                 name="Comp Card Payment"
                 description="Payment of Online Comp Card Creator"
                 amount={this.props.payment * 100}
