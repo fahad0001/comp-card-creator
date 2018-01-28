@@ -8,7 +8,6 @@ import ImageCropper from "../../common/cropper/ImageCropper";
 import {mapBrandingOPT, mapFontData, mapFrontSideData} from "./step-one.utils";
 
 import html2canvas from 'html2canvas';
-import jsPDF from 'jspdf';
 
 class StepOne extends Component {
     constructor(props) {
@@ -151,10 +150,9 @@ class StepOne extends Component {
 
     onNextClick() {
         html2canvas(document.getElementById('previewCanvas')).then((canvas) => {
-            // const pdf = new jsPDF();
-            // pdf.addImage(imgData, 'JPEG', 0, 0, 500,700);
-            // pdf.save("download.pdf");
-            this.props.onNextClick(1, JSON.parse(JSON.stringify(this.state)), canvas.toDataURL('image/jpg'));
+            html2canvas(document.getElementById('previewWithBranding')).then((inside) => {
+                this.props.onNextClick(1, JSON.parse(JSON.stringify(this.state)), canvas.toDataURL('image/jpg'), inside.toDataURL('image/jpg'));
+            });
         });
     }
     onPrevClick() {
@@ -286,7 +284,7 @@ class StepOne extends Component {
                                         image={this.state.fileCover}
                                         cropImage={this.cropImage}/>
                                     :
-                                    <div>
+                                    <div id="previewWithBranding">
                                         <div style={style.brandingStyle}>
                                             <img width={"100px"} src={"image/branding-logo.png"} alt="not-found"/>
                                         </div>

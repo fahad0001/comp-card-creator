@@ -3,7 +3,7 @@ import './Wizard.css';
 import Stepper from "../common/stepper/stepper";
 import StepOne from "./step-one/StepOne";
 import StepTwo from "./step-two/StepTwo";
-import StepThree from "./step-three/StepThree";
+import StepThree from "./step-three/StepThree.container";
 
 class Wizard extends Component {
     constructor(props) {
@@ -13,7 +13,8 @@ class Wizard extends Component {
             isStepError: false,
             stepOneState: {
                 state: {},
-                imageData: {}
+                imageData: {},
+                imageWithBranding: {}
             },
             stepTwoState: {
                 state: {},
@@ -28,14 +29,13 @@ class Wizard extends Component {
         this.onPrevClick = this.onPrevClick.bind(this);
     }
 
-    onNextClick(stepIndex, stateObj, imageData) {
+    onNextClick(stepIndex, stateObj, imageData, imageWithBranding) {
         switch(stepIndex) {
             case 1:
-                this.setState({currentState: stepIndex + 1, stepOneState: Object.assign(this.state.stepOneState, {state: stateObj, imageData})});
+                this.setState({currentState: stepIndex + 1, stepOneState: Object.assign(this.state.stepOneState, {state: stateObj, imageData, imageWithBranding})});
                 break;
             case 2:
                 this.setState({currentState: stepIndex + 1,  stepTwoState: Object.assign(this.state.stepTwoState, {state: stateObj, imageData})});
-                //this.setState({currentState: stepIndex + 1, stepTwoState: Object.assign(this.state.stepTwoState, {state: stateObj, imageData})});
                 break;
             case 3:
                 this.setState({currentState: stepIndex + 1, stepThreeState: stateObj});
@@ -82,26 +82,23 @@ class Wizard extends Component {
                             onNextClick={this.onNextClick}
                             onPrevClick={this.onPrevClick}/>
                     }
-                    {this.state.currentState === 3 &&
+                    {[3, 4 , 5].includes(this.state.currentState) &&
                         <StepThree
                             onNextClick={this.onNextClick}
                             onPrevClick={this.onPrevClick}
-                            stepOneImage={this.state.stepOneState.imageData}
-                            stepTwoImage={this.state.stepTwoState.imageData}/>
+                            stepOneState={this.state.stepOneState}
+                            stepTwoState={this.state.stepTwoState}/>
                     }
                 </div>
-
             </div>
         )
     }
 }
-
-const WizardStyle={
+const WizardStyle = {
     stepperStyle: {
-        marginLeft: '13%',
-        marginTop: '5%',
+        marginLeft: '30%',
+        marginTop: '10%',
         marginBottom: '5%'
     }
 };
-
 export default Wizard;

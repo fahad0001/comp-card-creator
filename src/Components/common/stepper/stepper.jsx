@@ -13,6 +13,7 @@ export default class Stepper extends Component{
                 <Step title="Step 1"/>
                 <Step title="Step 2"/>
                 <Step title="Step 3"/>
+                <Step title="Step 4"/>
             </Steps>
         )
     }
