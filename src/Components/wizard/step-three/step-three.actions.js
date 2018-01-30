@@ -28,7 +28,7 @@ function _errorDataUpload(error) {
 export function getDataUpload(data){
     return dispatch => {
         dispatch(_requestDataUpload(true));
-        apiDataUpload('https://requestb.in/1b3by4k1', data)
+        apiDataUpload('/api/uploadFinalData', data)
             .then(response => {
                 dispatch(_receiveDataUpload(data, false));
             })

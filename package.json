@@ -25,6 +25,14 @@
     "redux-thunk": "^2.2.0",
     "webfontloader": "^1.6.28"
   },
+  "proxy": {
+    "/auth/google": {
+      "target": "http://localhost:5000"
+    },
+    "/api/uploadFinalData": {
+      "target": "http://localhost:5000"
+    }
+  },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
