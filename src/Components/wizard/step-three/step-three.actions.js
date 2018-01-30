@@ -29,7 +29,7 @@ function _errorDataUpload(error) {
     }
 }
 
-//functions Data Upload
+//functions Image Upload
 function _requestImageUpload(status) {
     return {
         type: REQUEST_IMAGE_UPLOAD,
