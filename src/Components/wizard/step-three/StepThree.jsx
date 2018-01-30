@@ -238,24 +238,18 @@ export default class StepThree extends Component {
     }
 
     submitUserInfo(tokenData) {
-        let Data = {
+        let personalData = {
             tokenData,
             PersonalDetail : {
                 firstName: this.props.stepOneState.state.firstName,
                 lastName: this.props.stepOneState.state.lastName,
-                originalImage: this.props.stepOneState.state.fileCover,
-                croppedImage: this.props.stepOneState.state.croppedImage,
                 selectedTemplate: this.props.stepOneState.state.selectedTemplate,
                 selectedBGColor: this.props.stepOneState.state.selectedBGColor,
                 selectedFont: this.props.stepOneState.state.selectedFont,
                 fontSize: this.props.stepOneState.state.fontSize,
-                branding: this.props.stepOneState.state.branding !== '0',
-                finalImage: this.props.stepOneState.imageData,
-                finalImageWB: this.props.stepOneState.imageWithBranding
+                branding: this.props.stepOneState.state.branding !== '0'
             },
             personalProperties: {
-                originalImage: this.props.stepTwoState.state.fileCover,
-                croppedImage: this.props.stepTwoState.state.croppedImage,
                 totalImages: this.props.stepTwoState.state.amountImages,
                 selectedBGColor: this.props.stepTwoState.state.selectedBGColor,
                 personalInfo: {
@@ -269,7 +263,6 @@ export default class StepThree extends Component {
                     shoes: this.props.stepTwoState.state.shoes
                 },
                 other: this.props.stepTwoState.state.otherInfo,
-                finalImage: this.props.stepTwoState.imageData,
             },
             OrderDetail: {
                 onlineCardComp: this.state.onlineCardComp,
@@ -284,12 +277,28 @@ export default class StepThree extends Component {
                 totalAmount: this.calculatePriceWithTax()
             }
         };
-        this.props.getDataUpload(Data);
+        let ImagesStepOne = {
+            step: 1,
+            originalImage: this.props.stepOneState.state.fileCover,
+            croppedImage: this.props.stepOneState.state.croppedImage,
+            finalImage: this.props.stepOneState.imageData,
+            finalImageWB: this.props.stepOneState.imageWithBranding
+        };
+
+        let ImagesStepTwo = {
+            step: 2,
+            originalImage: this.props.stepTwoState.state.fileCover,
+            croppedImage: this.props.stepTwoState.state.croppedImage,
+            finalImage: this.props.stepTwoState.imageData
+        };
+        this.props.uploadData(personalData);
+        this.props.uploadImages(ImagesStepOne);
+        this.props.uploadImages(ImagesStepTwo);
 
     }
 
     render(){
-        const {dataUploadInfo} = this.props;
+        const {dataUploadInfo, imageUploadInfo} = this.props;
         let style={
             canvasSize: {
                 marginLeft: '10%',
@@ -315,7 +324,7 @@ export default class StepThree extends Component {
             }
         };
         return(
-            dataUploadInfo.isFetching ?
+            (dataUploadInfo.isFetching && imageUploadInfo.isFetching) ?
                 <div style={{width: '100%', height: '100%', backgroundColor: 'black', color: 'white'}}>Uploading</div>
                 :
                 dataUploadInfo.error ?

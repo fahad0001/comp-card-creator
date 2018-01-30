@@ -6,6 +6,7 @@ const mapStateToProps = reducers => ({
     dataUploadInfo: reducers.dataUpload.dataUploadInfo
 });
 const mapDispatchToProps = dispatch => ({
-    getDataUpload: (data) => dispatch(getDataUpload(data))
+    uploadData: (data) => dispatch(uploadData(data)),
+    uploadImages: (imageData) => dispatch(uploadImages(imageData))
 });
 export default connect(mapStateToProps, mapDispatchToProps)(StepThree);
