@@ -55,7 +55,7 @@ export function uploadImages(imageData) {
         dispatch(_requestImageUpload(true));
         apiDataUpload('/api/uploadFinalImage', imageData)
             .then(response =>{
-                dispatch(_receiveImageUpload(response[0].data));
+                dispatch(_receiveImageUpload(response.data, false));
             })
             .catch(err => {
                 dispatch(_errorImageUpload(err));
@@ -68,7 +68,7 @@ export function uploadData(data){
         dispatch(_requestDataUpload(true));
         apiDataUpload('/api/uploadFinalData', data)
             .then(response => {
-                dispatch(_receiveDataUpload(response[0].data, false));
+                dispatch(_receiveDataUpload(response.data, false));
             })
             .catch(err => {
                 dispatch(_errorDataUpload(err));

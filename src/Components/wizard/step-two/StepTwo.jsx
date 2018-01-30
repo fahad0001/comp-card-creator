@@ -322,7 +322,6 @@ export default class StepTwo extends Component {
                                     id="formControlsFirst"
                                     type="text"
                                     placeholder="Space for contact and additional Info"
-                                    required
                                     onChange={(event) => this.setState({otherInfo: event.target.value})}/>
                             </fieldset>
                             <br/>

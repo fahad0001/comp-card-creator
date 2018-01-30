@@ -57,7 +57,7 @@ export function dataUpload(state = defaultState, action = {}){
                 isFetching: action.isFetching,
                 error: ''
             };
-            return Object.assign({}, state, {dataUploadInfo: newState});
+            return Object.assign({}, state, {imageUploadInfo: newState});
 
         case RECEIVE_IMAGE_UPLOAD:
             newState = {
@@ -65,7 +65,7 @@ export function dataUpload(state = defaultState, action = {}){
                 isFetching: action.isFetching,
                 error: ''
             };
-            return Object.assign({}, state, {dataUploadInfo: newState});
+            return Object.assign({}, state, {imageUploadInfo: newState});
 
         case ERROR_IMAGE_UPLOAD:
             newState = {
@@ -73,7 +73,7 @@ export function dataUpload(state = defaultState, action = {}){
                 isFetching: false,
                 error: action.error
             };
-            return Object.assign({}, state, {dataUploadInfo: newState});
+            return Object.assign({}, state, {imageUploadInfo: newState});
 
         default:
             return state;

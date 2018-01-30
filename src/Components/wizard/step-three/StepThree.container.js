@@ -1,9 +1,10 @@
 import {connect} from 'react-redux';
-import {getDataUpload} from "./step-three.actions";
+import {uploadData, uploadImages} from "./step-three.actions";
 import StepThree from "./StepThree";
 
 const mapStateToProps = reducers => ({
-    dataUploadInfo: reducers.dataUpload.dataUploadInfo
+    dataUploadInfo: reducers.dataUpload.dataUploadInfo,
+    imageUploadInfo: reducers.dataUpload.imageUploadInfo
 });
 const mapDispatchToProps = dispatch => ({
     uploadData: (data) => dispatch(uploadData(data)),

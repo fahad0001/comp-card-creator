@@ -1,8 +1,10 @@
 import React, {Component} from 'react';
 import {mapFrontSideData} from "../step-one/step-one.utils";
+import {FinalStep} from "../final/FinalStep";
 import {CountrySelect, FieldGroup, SelectGroup, SwitchToggle} from "../../common/field-group/FieldGroup";
 import {Form, Pager} from "react-bootstrap";
 import StripePayment from '../../common/stripe-wrapper/StripePayment';
+import './StepThree.css';
 
 import {mapCardPrintQty} from "./step-three.utils";
 
@@ -42,10 +44,10 @@ export default class StepThree extends Component {
                 country: ''
             },
             price: {
-              amountQty: 0,
-              amountPDF: 20,
-              amountIndividual: 0,
-              amountBrand: 0
+                amountQty: 0,
+                amountPDF: 20,
+                amountIndividual: 0,
+                amountBrand: 0
             },
             imgCheck: {},
             selectedQtyOpt: {},
@@ -80,7 +82,7 @@ export default class StepThree extends Component {
 
     componentDidMount() {
         let canvas1 = document.getElementById('preview-one');
-        const canvas2 = document.getElementById('preview-two');
+        let canvas2 = document.getElementById('preview-two');
 
         let imageObjOne = new Image();
         let imageObjTwo = new Image();
@@ -220,8 +222,8 @@ export default class StepThree extends Component {
         }
     }
 
-    onNextClick() {
-        this.props.onNextClick(3, JSON.parse(JSON.stringify(this.state)));
+    onNextClick(conditionalIndex) {
+        this.props.onNextClick(conditionalIndex || 3, JSON.parse(JSON.stringify(this.state)));
     }
     onPrevClick() {
         this.props.onPrevClick(3);
@@ -277,24 +279,28 @@ export default class StepThree extends Component {
                 totalAmount: this.calculatePriceWithTax()
             }
         };
-        let ImagesStepOne = {
-            step: 1,
-            originalImage: this.props.stepOneState.state.fileCover,
-            croppedImage: this.props.stepOneState.state.croppedImage,
-            finalImage: this.props.stepOneState.imageData,
-            finalImageWB: this.props.stepOneState.imageWithBranding
+
+        let finalImageStepOne = {
+            step: 1.1,
+            finalImage: this.props.stepOneState.imageData
         };
 
-        let ImagesStepTwo = {
+        if(this.props.stepOneState.state.branding !== '0' || this.state.branding) {
+            let finalImageStepOneBrand = {
+                step: 1.2,
+                finalImageWB: this.props.stepOneState.imageWithBranding
+            };
+            this.props.uploadImages(finalImageStepOneBrand);
+        }
+
+        let finalImageStepTwo = {
             step: 2,
-            originalImage: this.props.stepTwoState.state.fileCover,
-            croppedImage: this.props.stepTwoState.state.croppedImage,
             finalImage: this.props.stepTwoState.imageData
         };
-        this.props.uploadData(personalData);
-        this.props.uploadImages(ImagesStepOne);
-        this.props.uploadImages(ImagesStepTwo);
 
+        this.props.uploadData(personalData);
+        this.props.uploadImages(finalImageStepOne);
+        this.props.uploadImages(finalImageStepTwo);
     }
 
     render(){
@@ -324,362 +330,370 @@ export default class StepThree extends Component {
             }
         };
         return(
-            (dataUploadInfo.isFetching && imageUploadInfo.isFetching) ?
-                <div style={{width: '100%', height: '100%', backgroundColor: 'black', color: 'white'}}>Uploading</div>
+            (dataUploadInfo.isFetching || imageUploadInfo.isFetching) ?
+                <div className="overlay"><img style={{margin: '15vw'}} width={"200px"} src={"image/uploading.gif"} alt="Uploading"/></div>
                 :
-                dataUploadInfo.error ?
-                    <div style={{width: '100%', height: '100%', backgroundColor: 'red', color: 'white'}}>Error</div>
+                dataUploadInfo.error  || imageUploadInfo.error ?
+                    <div style={{width: '100%', height: '100%', backgroundColor: 'red', color: 'white'}}>{dataUploadInfo.error || imageUploadInfo.error}</div>
                     :
-                    <div>
-                    <div className="row">
-                        <div className="col-md-6">
-                            <Form horizontal onSubmit={this.formSubmit}>
-                                <fieldset>
-                                    <legend>Product Section</legend>
-                                    <SwitchToggle
-                                        label="Online Comp Card"
-                                        onText="Yes"
-                                        offText="No"
-                                        onChange={(el, state) => this.setState({onlineCardComp: state})}
-                                        value={this.state.onlineCardComp}
-                                        bsSize="mini"
-                                        name="cardComp"/>
-                                    <SelectGroup
-                                        id="formControlsSelectTemplate"
-                                        label="Comp Card file"
-                                        data={[{key: true, value: 'PDF & JPG'}]}/>
-                                    <SelectGroup
-                                        id="formControlsSelectTemplate"
-                                        label="Comp Card print"
-                                        onChange={this.printQuantityChange}
-                                        data={mapCardPrintQty()}/>
-                                    <SwitchToggle
-                                        label="Rounded Corner"
-                                        onText="Yes"
-                                        offText="No"
-                                        onChange={(el, state) => this.onToggle('corner', state)}
-                                        disabled={!this.state.printQuantity}
-                                        value={this.state.roundCorner}
-                                        bsSize="mini"
-                                        name="roundCorner"/>
-                                    <SwitchToggle
-                                        label="Envelope"
-                                        onText="Yes"
-                                        offText="No"
-                                        disabled={!this.state.printQuantity}
-                                        onChange={(el, state) => this.onToggle('envelope', state)}
-                                        value={this.state.envelope}
-                                        bsSize="mini"
-                                        name="envelope"/>
-                                    <SelectGroup
-                                        id="formControlsSelectBranding"
-                                        label="Branding"
-                                        onChange={this.enableBranding}
-                                        data={[{key: false, value: "Without Branding"},
-                                            {key: true, value: "Model Platform Logo (-3$)"}]}/>
-                                    <SwitchToggle
-                                        label="Individual Changes"
-                                        onText="Yes"
-                                        offText="No"
-                                        onChange={(el, state) => this.setState({individualChanges: state})}
-                                        value={this.state.individualChanges}
-                                        bsSize="mini"
-                                        name="cardComp"/>
-                                </fieldset>
-                                <fieldset>
-                                    <legend>ORDER CONFIRMATION TO</legend>
-                                    <FieldGroup
-                                        id="formControlsLast"
-                                        type="email"
-                                        label="E-Mail address"
-                                        required
-                                        placeholder="Enter E-Mail"
-                                        onChange={(event) => this.setState({emailAddress: event.target.value})}/>
+                    (imageUploadInfo.imgData.length && dataUploadInfo.data.length) ?
+                        <div style={{width: '100%', height: '100%', backgroundColor: 'green', color: 'white'}}>{this.onNextClick(4)}
+                            <FinalStep/>
+                        </div>
+                        :
+                        <div>
+                            <div className="row">
+                                <div className="col-md-6">
+                                    <Form horizontal onSubmit={this.formSubmit}>
+                                        <fieldset>
+                                            <legend>Product Section</legend>
+                                            <SwitchToggle
+                                                label="Online Comp Card"
+                                                onText="Yes"
+                                                offText="No"
+                                                onChange={(el, state) => this.setState({onlineCardComp: state})}
+                                                value={this.state.onlineCardComp}
+                                                bsSize="mini"
+                                                name="cardComp"/>
+                                            <SelectGroup
+                                                id="formControlsSelectTemplate"
+                                                label="Comp Card file"
+                                                data={[{key: true, value: 'PDF & JPG'}]}/>
+                                            <SelectGroup
+                                                id="formControlsSelectTemplate"
+                                                label="Comp Card print"
+                                                onChange={this.printQuantityChange}
+                                                data={mapCardPrintQty()}/>
+                                            <SwitchToggle
+                                                label="Rounded Corner"
+                                                onText="Yes"
+                                                offText="No"
+                                                onChange={(el, state) => this.onToggle('corner', state)}
+                                                disabled={!this.state.printQuantity}
+                                                value={this.state.roundCorner}
+                                                bsSize="mini"
+                                                name="roundCorner"/>
+                                            <SwitchToggle
+                                                label="Envelope"
+                                                onText="Yes"
+                                                offText="No"
+                                                disabled={!this.state.printQuantity}
+                                                onChange={(el, state) => this.onToggle('envelope', state)}
+                                                value={this.state.envelope}
+                                                bsSize="mini"
+                                                name="envelope"/>
+                                            <SelectGroup
+                                                id="formControlsSelectBranding"
+                                                label="Branding"
+                                                onChange={this.enableBranding}
+                                                data={[{key: false, value: "Without Branding"},
+                                                    {key: true, value: "Model Platform Logo (-3$)"}]}/>
+                                            <SwitchToggle
+                                                label="Individual Changes"
+                                                onText="Yes"
+                                                offText="No"
+                                                onChange={(el, state) => this.setState({individualChanges: state})}
+                                                value={this.state.individualChanges}
+                                                bsSize="mini"
+                                                name="cardComp"/>
+                                        </fieldset>
+                                        <fieldset>
+                                            <legend>ORDER CONFIRMATION TO</legend>
+                                            <FieldGroup
+                                                id="formControlsLast"
+                                                type="email"
+                                                label="E-Mail address"
+                                                required
+                                                placeholder="Enter E-Mail"
+                                                onChange={(event) => this.setState({emailAddress: event.target.value})}/>
 
-                                </fieldset>
-                                <fieldset>
-                                    <legend>Address I</legend>
-                                    <FieldGroup
-                                        id="formControlsLast"
-                                        type="text"
-                                        label="Company"
-                                        required
-                                        placeholder="Enter Company"
-                                        onChange={(event) => Object.assign(this.state.firstAddress, {company: event.target.value})}/>
-                                    <div className="row">
-                                        <div className="col-md-8">
+                                        </fieldset>
+                                        <fieldset>
+                                            <legend>Address I</legend>
                                             <FieldGroup
                                                 id="formControlsLast"
                                                 type="text"
-                                                label="Name"
-                                                labelSize={6}
-                                                componentSize={6}
+                                                label="Company"
                                                 required
-                                                placeholder="Firstname"
-                                                onChange={(event) => Object.assign(this.state.firstAddress, {firstName: event.target.value})}/>
-                                        </div>
-                                        <div className="col-md-4">
+                                                placeholder="Enter Company"
+                                                onChange={(event) => Object.assign(this.state.firstAddress, {company: event.target.value})}/>
+                                            <div className="row">
+                                                <div className="col-md-8">
+                                                    <FieldGroup
+                                                        id="formControlsLast"
+                                                        type="text"
+                                                        label="Name"
+                                                        labelSize={6}
+                                                        componentSize={6}
+                                                        required
+                                                        placeholder="Firstname"
+                                                        onChange={(event) => Object.assign(this.state.firstAddress, {firstName: event.target.value})}/>
+                                                </div>
+                                                <div className="col-md-4">
+                                                    <FieldGroup
+                                                        id="formControlsLast"
+                                                        type="text"
+                                                        noLabel={true}
+                                                        componentSize={12}
+                                                        required
+                                                        placeholder="Lastname"
+                                                        onChange={(event) => Object.assign(this.state.firstAddress, {lastName: event.target.value})}/>
+                                                </div>
+                                            </div>
                                             <FieldGroup
                                                 id="formControlsLast"
                                                 type="text"
-                                                noLabel={true}
-                                                componentSize={12}
+                                                label="Street & Number"
                                                 required
-                                                placeholder="Lastname"
-                                                onChange={(event) => Object.assign(this.state.firstAddress, {lastName: event.target.value})}/>
-                                        </div>
-                                    </div>
-                                    <FieldGroup
-                                        id="formControlsLast"
-                                        type="text"
-                                        label="Street & Number"
-                                        required
-                                        placeholder="Street & Number"
-                                        onChange={(event) => Object.assign(this.state.firstAddress, {street: event.target.value})}/>
-                                    <FieldGroup
-                                        id="formControlsLast"
-                                        type="text"
-                                        label="Additional"
-                                        placeholder="Enter Address (Optional)"
-                                        onChange={(event) => Object.assign(this.state.firstAddress, {additional: event.target.value})}/>
-                                    <div className="row">
-                                        <div className="col-md-8">
+                                                placeholder="Street & Number"
+                                                onChange={(event) => Object.assign(this.state.firstAddress, {street: event.target.value})}/>
                                             <FieldGroup
                                                 id="formControlsLast"
                                                 type="text"
-                                                label="Zip & City"
-                                                labelSize={6}
-                                                componentSize={6}
+                                                label="Additional"
+                                                placeholder="Enter Address (Optional)"
+                                                onChange={(event) => Object.assign(this.state.firstAddress, {additional: event.target.value})}/>
+                                            <div className="row">
+                                                <div className="col-md-8">
+                                                    <FieldGroup
+                                                        id="formControlsLast"
+                                                        type="text"
+                                                        label="Zip & City"
+                                                        labelSize={6}
+                                                        componentSize={6}
+                                                        required
+                                                        placeholder="Zip"
+                                                        onChange={(event) => Object.assign(this.state.firstAddress, {zip: event.target.value})}/>
+                                                </div>
+                                                <div className="col-md-4">
+                                                    <FieldGroup
+                                                        id="formControlsLast"
+                                                        type="text"
+                                                        noLabel={true}
+                                                        componentSize={12}
+                                                        required
+                                                        placeholder="City"
+                                                        onChange={(event) => Object.assign(this.state.firstAddress, {city: event.target.value})}/>
+                                                </div>
+                                            </div>
+                                            <CountrySelect
+                                                label="Country"
                                                 required
-                                                placeholder="Zip"
-                                                onChange={(event) => Object.assign(this.state.firstAddress, {zip: event.target.value})}/>
-                                        </div>
-                                        <div className="col-md-4">
-                                            <FieldGroup
-                                                id="formControlsLast"
-                                                type="text"
-                                                noLabel={true}
-                                                componentSize={12}
-                                                required
-                                                placeholder="City"
-                                                onChange={(event) => Object.assign(this.state.firstAddress, {city: event.target.value})}/>
-                                        </div>
-                                    </div>
-                                    <CountrySelect
-                                        label="Country"
-                                        required
-                                        value={this.state.firstAddress.country}
-                                        onChange={(val) => this.setState({
-                                            firstAddress: Object.assign(this.state.firstAddress, {country: val}),
-                                            countryError: false
-                                        })}/>
-                                </fieldset>
-                                <fieldset>
-                                    <legend>Address II</legend>
-                                    <SwitchToggle
-                                        label="Different Shipping Address"
-                                        onText="Yes"
-                                        offText="No"
-                                        onChange={(el, state) => this.setState({differentShipping: state})}
-                                        value={this.state.differentShipping}
-                                        bsSize="mini"
-                                        name="cardComp"/>
-                                    {this.state.differentShipping &&
-                                    <div>
-                                        <FieldGroup
-                                            id="formControlsLast"
-                                            type="text"
-                                            label="Company"
-                                            required
-                                            placeholder="Enter Company"
-                                            onChange={(event) => Object.assign(this.state.secondAddress, {company: event.target.value})}/>
-                                        <div className="row">
-                                            <div className="col-md-8">
+                                                value={this.state.firstAddress.country}
+                                                onChange={(val) => this.setState({
+                                                    firstAddress: Object.assign(this.state.firstAddress, {country: val}),
+                                                    countryError: false
+                                                })}/>
+                                        </fieldset>
+                                        <fieldset>
+                                            <legend>Address II</legend>
+                                            <SwitchToggle
+                                                label="Different Shipping Address"
+                                                onText="Yes"
+                                                offText="No"
+                                                onChange={(el, state) => this.setState({differentShipping: state})}
+                                                value={this.state.differentShipping}
+                                                bsSize="mini"
+                                                name="cardComp"/>
+                                            {this.state.differentShipping &&
+                                            <div>
                                                 <FieldGroup
                                                     id="formControlsLast"
                                                     type="text"
-                                                    label="Name"
-                                                    labelSize={6}
-                                                    componentSize={6}
+                                                    label="Company"
                                                     required
-                                                    placeholder="Firstname"
-                                                    onChange={(event) => Object.assign(this.state.secondAddress, {firstName: event.target.value})}/>
+                                                    placeholder="Enter Company"
+                                                    onChange={(event) => Object.assign(this.state.secondAddress, {company: event.target.value})}/>
+                                                <div className="row">
+                                                    <div className="col-md-8">
+                                                        <FieldGroup
+                                                            id="formControlsLast"
+                                                            type="text"
+                                                            label="Name"
+                                                            labelSize={6}
+                                                            componentSize={6}
+                                                            required
+                                                            placeholder="Firstname"
+                                                            onChange={(event) => Object.assign(this.state.secondAddress, {firstName: event.target.value})}/>
+                                                    </div>
+                                                    <div className="col-md-4">
+                                                        <FieldGroup
+                                                            id="formControlsLast"
+                                                            type="text"
+                                                            noLabel={true}
+                                                            componentSize={12}
+                                                            required
+                                                            placeholder="Lastname"
+                                                            onChange={(event) => Object.assign(this.state.secondAddress, {lastName: event.target.value})}/>
+                                                    </div>
+                                                </div>
+                                                <FieldGroup
+                                                    id="formControlsLast"
+                                                    type="text"
+                                                    label="Street & Number"
+                                                    required
+                                                    placeholder="Street & Number"
+                                                    onChange={(event) => Object.assign(this.state.secondAddress, {street: event.target.value})}/>
+                                                <FieldGroup
+                                                    id="formControlsLast"
+                                                    type="text"
+                                                    label="Additional"
+                                                    placeholder="Enter Address (Optional)"
+                                                    onChange={(event) => Object.assign(this.state.secondAddress, {additional: event.target.value})}/>
+                                                <div className="row">
+                                                    <div className="col-md-8">
+                                                        <FieldGroup
+                                                            id="formControlsLast"
+                                                            type="text"
+                                                            label="Zip & City"
+                                                            labelSize={6}
+                                                            componentSize={6}
+                                                            required
+                                                            placeholder="Zip"
+                                                            onChange={(event) => Object.assign(this.state.secondAddress, {zip: event.target.value})}/>
+                                                    </div>
+                                                    <div className="col-md-4">
+                                                        <FieldGroup
+                                                            id="formControlsLast"
+                                                            type="text"
+                                                            noLabel={true}
+                                                            componentSize={12}
+                                                            required
+                                                            placeholder="City"
+                                                            onChange={(event) => Object.assign(this.state.secondAddress, {city: event.target.value})}/>
+                                                    </div>
+                                                </div>
+                                                <CountrySelect
+                                                    label="Country"
+                                                    required
+                                                    value={this.state.secondAddress.country}
+                                                    onChange={(val) => this.setState({secondAddress: Object.assign(this.state.secondAddress, {country: val})})}/>
+                                            </div>
+                                            }
+                                        </fieldset>
+                                        <br/>
+                                        {!this.state.enablePayment && <FieldGroup
+                                            type="submit"
+                                            labelSize={6}
+                                            componentSize={4}
+                                            value="Validate"
+                                            style={{backgroundColor: "#363636", color: "white"}}
+                                            className="btn btn-outline-success waves-effect"
+                                            required/>
+                                        }
+                                    </Form>
+                                    {this.state.enablePayment && !this.state.countryError &&
+                                    <div className="col-md-offset-4">
+                                        <div className="row">
+                                            <div className="col-md-6">
+                                                <StripePayment
+                                                    email={this.state.emailAddress}
+                                                    payment={this.calculatePriceWithTax()}
+                                                    returnedToken={token => this.submitUserInfo(token)}/>
+                                            </div>
+                                            <div className="col-md-6">
+                                                <button
+                                                    style={{
+                                                        width: '170px',
+                                                        marginBottom: '15px',
+                                                        color: 'white',
+                                                        fontSize: '15px',
+                                                        backgroundColor: 'red'
+                                                    }}
+                                                    onClick={() => this.setState({enablePayment: false})}
+                                                    className="btn btn-outline-default">Cancel
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>}
+                                    {this.state.countryError && <div className="col-md-offset-4">
+                                        <h5 style={{color: 'red'}}>*Please Select Country</h5>
+                                    </div>}
+                                </div>
+                                <div className="col-md-6">
+                                    <fieldset>
+                                        <legend>Preview</legend>
+                                        <div style={style.canvasSize} className="row">
+                                            <div style={style.canvasStyle} className="col-md-6">
+                                                <canvas style={{width: '260px', height: '370px'}} id="preview-one"/>
+                                            </div>
+                                            <div style={style.canvasStyle} className="col-md-6">
+                                                <canvas style={{width: '260px', height: '370px'}} id="preview-two"/>
+                                            </div>
+                                        </div>
+                                    </fieldset>
+                                    <p><strong>Notice:</strong> In this preview you see a rendered version of your Comp
+                                        Card.
+                                        Please check, if all your information are shown correctly</p><br/>
+                                    <fieldset>
+                                        <legend>OVERVIEW</legend>
+                                        <div className="container-fluid row">
+                                            <div className="col-md-8">
+                                                <div style={{textAlign: 'left'}}>PDF & JPG</div>
                                             </div>
                                             <div className="col-md-4">
-                                                <FieldGroup
-                                                    id="formControlsLast"
-                                                    type="text"
-                                                    noLabel={true}
-                                                    componentSize={12}
-                                                    required
-                                                    placeholder="Lastname"
-                                                    onChange={(event) => Object.assign(this.state.secondAddress, {lastName: event.target.value})}/>
+                                                <div style={{textAlign: 'Right'}}>{this.state.price.amountPDF} $</div>
                                             </div>
                                         </div>
-                                        <FieldGroup
-                                            id="formControlsLast"
-                                            type="text"
-                                            label="Street & Number"
-                                            required
-                                            placeholder="Street & Number"
-                                            onChange={(event) => Object.assign(this.state.secondAddress, {street: event.target.value})}/>
-                                        <FieldGroup
-                                            id="formControlsLast"
-                                            type="text"
-                                            label="Additional"
-                                            placeholder="Enter Address (Optional)"
-                                            onChange={(event) => Object.assign(this.state.secondAddress, {additional: event.target.value})}/>
-                                        <div className="row">
+                                        {this.state.printQuantity > 0 &&
+                                        <div className="container-fluid row">
                                             <div className="col-md-8">
-                                                <FieldGroup
-                                                    id="formControlsLast"
-                                                    type="text"
-                                                    label="Zip & City"
-                                                    labelSize={6}
-                                                    componentSize={6}
-                                                    required
-                                                    placeholder="Zip"
-                                                    onChange={(event) => Object.assign(this.state.secondAddress, {zip: event.target.value})}/>
+                                                <div style={{textAlign: 'left'}}>
+                                                    <span>{this.state.printQuantity} Pieces</span>&nbsp;
+                                                    <span
+                                                        style={{fontSize: '9px'}}>{this.state.roundCorner ? 'Round Corner' : ''}</span>&nbsp;
+                                                    <span
+                                                        style={{fontSize: '9px'}}>{this.state.envelope ? 'Envelope' : ''}</span>
+                                                </div>
                                             </div>
                                             <div className="col-md-4">
-                                                <FieldGroup
-                                                    id="formControlsLast"
-                                                    type="text"
-                                                    noLabel={true}
-                                                    componentSize={12}
-                                                    required
-                                                    placeholder="City"
-                                                    onChange={(event) => Object.assign(this.state.secondAddress, {city: event.target.value})}/>
+                                                <div style={{textAlign: 'Right'}}>{this.state.price.amountQty} $</div>
                                             </div>
                                         </div>
-                                        <CountrySelect
-                                            label="Country"
-                                            required
-                                            value={this.state.secondAddress.country}
-                                            onChange={(val) => this.setState({secondAddress: Object.assign(this.state.secondAddress, {country: val})})}/>
-                                    </div>
-                                    }
-                                </fieldset>
-                                <br/>
-                                {!this.state.enablePayment && <FieldGroup
-                                    type="submit"
-                                    labelSize={6}
-                                    componentSize={4}
-                                    value="Validate"
-                                    style={{backgroundColor: "#363636", color: "white"}}
-                                    className="btn btn-outline-success waves-effect"
-                                    required/>
-                                }
-                            </Form>
-                            {this.state.enablePayment && !this.state.countryError && <div className="col-md-offset-4">
-                                <div className="row">
-                                    <div className="col-md-6">
-                                        <StripePayment
-                                            email={this.state.emailAddress}
-                                            payment={this.calculatePriceWithTax()}
-                                            returnedToken={token => this.submitUserInfo(token)}/>
-                                    </div>
-                                    <div className="col-md-6">
-                                        <button
-                                            style={{
-                                                width: '170px',
-                                                marginBottom: '15px',
-                                                color: 'white',
-                                                fontSize: '15px',
-                                                backgroundColor: 'red'
-                                            }}
-                                            onClick={() => this.setState({enablePayment: false})}
-                                            className="btn btn-outline-default">Cancel
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>}
-                            {this.state.countryError && <div className="col-md-offset-4">
-                                <h5 style={{color: 'red'}}>*Please Select Country</h5>
-                            </div>}
-                        </div>
-                        <div className="col-md-6">
-                            <fieldset>
-                                <legend>Preview</legend>
-                                <div style={style.canvasSize} className="row">
-                                    <div style={style.canvasStyle} className="col-md-6">
-                                        <canvas style={{width: '260px', height: '370px'}} id="preview-one"/>
-                                    </div>
-                                    <div style={style.canvasStyle} className="col-md-6">
-                                        <canvas style={{width: '260px', height: '370px'}} id="preview-two"/>
-                                    </div>
-                                </div>
-                            </fieldset>
-                            <p><strong>Notice:</strong> In this preview you see a rendered version of your Comp Card.
-                                Please check, if all your information are shown correctly</p><br/>
-                            <fieldset>
-                                <legend>OVERVIEW</legend>
-                                <div className="container-fluid row">
-                                    <div className="col-md-8">
-                                        <div style={{textAlign: 'left'}}>PDF & JPG</div>
-                                    </div>
-                                    <div className="col-md-4">
-                                        <div style={{textAlign: 'Right'}}>{this.state.price.amountPDF} $</div>
-                                    </div>
-                                </div>
-                                {this.state.printQuantity > 0 &&
-                                <div className="container-fluid row">
-                                    <div className="col-md-8">
-                                        <div style={{textAlign: 'left'}}>
-                                            <span>{this.state.printQuantity} Pieces</span>&nbsp;
-                                            <span
-                                                style={{fontSize: '9px'}}>{this.state.roundCorner ? 'Round Corner' : ''}</span>&nbsp;
-                                            <span
-                                                style={{fontSize: '9px'}}>{this.state.envelope ? 'Envelope' : ''}</span>
+                                        }
+                                        {this.state.onlineCardComp &&
+                                        <div className="container-fluid row">
+                                            <div className="col-md-8">
+                                                <div style={{textAlign: 'left'}}>Online Comp Card</div>
+                                            </div>
+                                            <div className="col-md-4">
+                                                <div style={{textAlign: 'Right'}}>0.00 $</div>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div className="col-md-4">
-                                        <div style={{textAlign: 'Right'}}>{this.state.price.amountQty} $</div>
-                                    </div>
+                                        }
+                                        {this.state.branding &&
+                                        <div className="container-fluid row">
+                                            <div className="col-md-8">
+                                                <div style={{textAlign: 'left'}}>Model Platform Logo (-3 $)</div>
+                                            </div>
+                                            <div className="col-md-4">
+                                                <div style={{textAlign: 'Right'}}>{this.state.price.amountBrand} $</div>
+                                            </div>
+                                        </div>
+                                        }
+                                        <hr/>
+                                        <div className="container-fluid row">
+                                            <div className="col-md-8">
+                                                <div style={{textAlign: 'left'}}><strong>Subtotal (incl. 15%
+                                                    tax)</strong></div>
+                                            </div>
+                                            <div className="col-md-4">
+                                                <div style={{textAlign: 'Right'}}>
+                                                    <strong>{this.calculatePriceWithTax()} $</strong></div>
+                                            </div>
+                                        </div>
+                                    </fieldset>
                                 </div>
-                                }
-                                {this.state.onlineCardComp &&
-                                <div className="container-fluid row">
-                                    <div className="col-md-8">
-                                        <div style={{textAlign: 'left'}}>Online Comp Card</div>
-                                    </div>
-                                    <div className="col-md-4">
-                                        <div style={{textAlign: 'Right'}}>0.00 $</div>
-                                    </div>
-                                </div>
-                                }
-                                {this.state.branding &&
-                                <div className="container-fluid row">
-                                    <div className="col-md-8">
-                                        <div style={{textAlign: 'left'}}>Model Platform Logo (-3 $)</div>
-                                    </div>
-                                    <div className="col-md-4">
-                                        <div style={{textAlign: 'Right'}}>{this.state.price.amountBrand} $</div>
-                                    </div>
-                                </div>
-                                }
-                                <hr/>
-                                <div className="container-fluid row">
-                                    <div className="col-md-8">
-                                        <div style={{textAlign: 'left'}}><strong>Subtotal (incl. 15% tax)</strong></div>
-                                    </div>
-                                    <div className="col-md-4">
-                                        <div style={{textAlign: 'Right'}}>
-                                            <strong>{this.calculatePriceWithTax()} $</strong></div>
-                                    </div>
-                                </div>
-                            </fieldset>
+                            </div>
+                            <hr/>
+                            <div style={{marginTop: '-25px'}} className="container-fluid">
+                                <Pager>
+                                    <Pager.Item previous onClick={() => this.onPrevClick()}>&larr; Previous</Pager.Item>
+                                    <Pager.Item next style={style.nextButtonStyle}
+                                                onClick={() => this.onNextClick()}>Next &rarr;</Pager.Item>
+                                </Pager>
+                            </div>
                         </div>
-                    </div>
-                    <hr/>
-                    <div style={{marginTop: '-25px'}} className="container-fluid">
-                        <Pager>
-                            <Pager.Item previous onClick={() => this.onPrevClick()}>&larr; Previous</Pager.Item>
-                            <Pager.Item next style={style.nextButtonStyle}
-                                        onClick={() => this.onNextClick()}>Next &rarr;</Pager.Item>
-                        </Pager>
-                    </div>
-                </div>
         );
     }
 }
