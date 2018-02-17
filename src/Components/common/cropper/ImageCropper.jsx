@@ -26,7 +26,7 @@ export default class ImageCropper extends Component {
         if(this.editor) {
             const canvas = this.editor.getImage();
 
-            this.props.cropImage(canvas.toDataURL('image/jpeg', 0.5), this.editor.getCroppingRect());
+            this.props.cropImage(canvas.toDataURL('image/jpeg', 1), this.editor.getCroppingRect());
         }
     }
 

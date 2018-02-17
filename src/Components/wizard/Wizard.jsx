@@ -32,7 +32,7 @@ class Wizard extends Component {
     onNextClick(stepIndex, stateObj, imageData, imageWithBranding) {
         switch(stepIndex) {
             case 1:
-                this.setState({currentState: stepIndex + 1, stepOneState: Object.assign(this.state.stepOneState, {state: stateObj, imageData, imageWithBranding})});
+                this.setState({currentState: stepIndex + 1, stepOneState: Object.assign(this.state.stepOneState, {state: stateObj, imageData})});
                 break;
             case 2:
                 this.setState({currentState: stepIndex + 1,  stepTwoState: Object.assign(this.state.stepTwoState, {state: stateObj, imageData})});

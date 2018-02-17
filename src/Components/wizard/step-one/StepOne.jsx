@@ -5,7 +5,7 @@ import {FieldGroup, SelectGroup, ColorGroup} from "../../common/field-group/Fiel
 import {Form, Pager} from "react-bootstrap";
 
 import ImageCropper from "../../common/cropper/ImageCropper";
-import {mapBrandingOPT, mapFontData, mapFrontSideData} from "./step-one.utils";
+import {mapFontData, mapFrontSideData} from "./step-one.utils";
 
 import html2canvas from 'html2canvas';
 
@@ -23,7 +23,7 @@ class StepOne extends Component {
             selectedFont: 'Arial',
             fontSize: 12,
             isLast: false,
-            branding: '0',
+            // branding: '0',
             crop: false,
             imageStyle: {},
             textStyle: {},
@@ -104,6 +104,7 @@ class StepOne extends Component {
 
     selectedTemplateChange(event) {
         const tempValue = mapFrontSideData().find(item => item.key === event.target.value);
+        this.setState({selectedTemplate: tempValue});
         this.setState({imageStyle: tempValue.imageStyle});
         this.setState({textStyle: tempValue.textStyle});
         this.setState({fontSize: tempValue.textStyle.fontSize});
@@ -150,9 +151,7 @@ class StepOne extends Component {
 
     onNextClick() {
         html2canvas(document.getElementById('previewCanvas')).then((canvas) => {
-            html2canvas(document.getElementById('previewWithBranding')).then((inside) => {
-                this.props.onNextClick(1, JSON.parse(JSON.stringify(this.state)), canvas.toDataURL('image/jpg'), inside.toDataURL('image/jpg'));
-            });
+            this.props.onNextClick(1, JSON.parse(JSON.stringify(this.state)), canvas.toDataURL('image/jpg'));
         });
     }
     onPrevClick() {
@@ -179,13 +178,6 @@ class StepOne extends Component {
                 fontFamily: this.state.selectedFont,
                 ...this.state.textStyle,
             },
-            brandingStyle: {
-                position: 'relative',
-                zIndex: '1000',
-                float: 'right',
-                margin: '20px',
-                display: parseInt(this.state.branding, 10) ? 'block' : 'none'
-            },
             nextButtonStyle: {
                 pointerEvents: this.state.nextEventEnable ? 'auto' : 'none'
             }
@@ -196,7 +188,7 @@ class StepOne extends Component {
                     <div className="col-md-6">
                         <Form horizontal onSubmit={this.formSubmit}>
                             <fieldset>
-                                <legend>Personal Data</legend>
+                                <legend>Talents Info</legend>
                                 <FieldGroup
                                     id="formControlsFirst"
                                     type="text"
@@ -214,7 +206,7 @@ class StepOne extends Component {
                                 <FieldGroup
                                     id="formControlsFile"
                                     type="file"
-                                    label="Cover File"
+                                    label="Front Image"
                                     required
                                     onChange={this.fileCoverChange}/>
                             </fieldset>
@@ -222,7 +214,7 @@ class StepOne extends Component {
                                 <legend>Design</legend>
                                 <SelectGroup
                                     id="formControlsSelectTemplate"
-                                    label="Frontside"
+                                    label="Front Layout"
                                     onChange={this.selectedTemplateChange}
                                     data={mapFrontSideData()}/>
                                 <ColorGroup
@@ -251,14 +243,6 @@ class StepOne extends Component {
                                     onBlur={this.fontSizeBlur}
                                     placeholder="Enter Font Size"/>
                             </fieldset>
-                            <fieldset>
-                                <legend>Logo</legend>
-                                <SelectGroup
-                                    id="formControlsSelectBranding"
-                                    label="Branding"
-                                    onChange={(event) => this.setState({branding: event.target.value})}
-                                    data={mapBrandingOPT()}/>
-                            </fieldset>
                             <br/>
                             <FieldGroup
                                 type="submit"
@@ -284,21 +268,15 @@ class StepOne extends Component {
                                         image={this.state.fileCover}
                                         cropImage={this.cropImage}/>
                                     :
-                                    <div id="previewWithBranding">
-                                        <div style={style.brandingStyle}>
-                                            <img width={"100px"} src={"image/branding-logo.png"} alt="not-found"/>
-                                        </div>
-                                        <div id="previewCanvas" style={style.canvasStyle} className="canvas-style">
-                                            <div style={{position: "absolute"}}>{this.state.croppedImage ? this.renderImage(this.state.imageStyle) : ''}</div>
-                                            <div style={style.canvasTextStyle}>
-                                                {this.state.firstName + ' '}
-                                                <span style={{fontSize: this.state.isLast ? (this.state.fontSize * 2): this.state.fontSize + 'px'}}>
-                                                    {this.state.lastName}
-                                                </span>
-                                            </div>
+                                    <div id="previewCanvas" style={style.canvasStyle} className="canvas-style">
+                                        <div style={{position: "absolute"}}>{this.state.croppedImage ? this.renderImage(this.state.imageStyle) : ''}</div>
+                                        <div style={style.canvasTextStyle}>
+                                            {this.state.firstName + ' '}
+                                            <span style={{fontSize: this.state.isLast ? (this.state.fontSize * 2): this.state.fontSize + 'px'}}>
+                                                {this.state.lastName}
+                                            </span>
                                         </div>
                                     </div>
-
                                 }
                             </div>
                         </fieldset>

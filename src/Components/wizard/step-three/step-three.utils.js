@@ -1,5 +1,4 @@
 export const mapCardPrintQty = () => [
-    {key: 0, price: 20, priceRC: 0, priceRCE: 0, value: `Don't Print`},
     {key: 25, price: 66, priceRC: 68, priceE: 69, priceRCE: 71, value: '25 Pieces'},
     {key: 50, price: 85, priceRC: 88, priceE: 91, priceRCE: 94, value: '50 Pieces'},
     {key: 100, price: 125, priceRC: 130, priceE: 134, priceRCE: 139, value: '100 Pieces'},

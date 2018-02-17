@@ -172,7 +172,7 @@ export const mapFontData = () => [
     {uploadKey: 'Abril+Fatface', value: "Abril Fatface"}
 ];
 
-export const mapBrandingOPT = () => [
-    {key: 0, value: "Without Branding"},
-    {key: 1, value: "Model Platform Logo (-3$)"}
-];
+// export const mapBrandingOPT = () => [
+//     {key: 0, value: "Without Branding"},
+//     {key: 1, value: "Model Platform Logo (-3$)"}
+// ];

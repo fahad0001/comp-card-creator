@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
-import {mapAmountImages} from "./step-two.utils";
-import {FieldGroup, SelectGroup, ColorGroup} from "../../common/field-group/FieldGroup";
+import {mapAmountImages, mapUserSelection} from "./step-two.utils";
+import {FieldGroup, SelectGroup, ColorGroup, RadioGroup} from "../../common/field-group/FieldGroup";
 import {Form, Pager} from "react-bootstrap";
 
 import ImageCropper from "../../common/cropper/ImageCropper";
@@ -17,14 +17,17 @@ export default class StepTwo extends Component {
             amountImages: {},
             selectedBGColor: '#ffffff',
             crop: false,
+            userType: '',
             personalInfo: {
-                sex: 'Male',
                 height: 0,
                 chest: 0,
                 waist: 0,
                 hip: 0,
                 eyes: '',
                 hair: '',
+                dressSize: 0,
+                dob: '',
+                inseam: 0,
                 shoes: 0
             },
             otherInfo: '',
@@ -173,16 +176,32 @@ export default class StepTwo extends Component {
     }
 
     textDataRender(textStyle) {
+        const styleList = {
+          marginLeft: '10px',
+        };
+        const addition = {
+          marginTop: '7px',
+          display: 'flex',
+          justifyContent: 'center'
+        };
         return (
-            <ul style={textStyle}>
-                <li>Height: {this.state.personalInfo.height}</li>
-                <li>Chest: {this.state.personalInfo.chest}</li>
-                <li>Waist: {this.state.personalInfo.waist}</li>
-                <li>Hip: {this.state.personalInfo.hip}</li>
-                <li>Eyes: {this.state.personalInfo.eyes}</li>
-                <li>Hair: {this.state.personalInfo.hair}</li>
-                <li>Shoes: {this.state.personalInfo.shoes}</li>
-            </ul>
+            <div>
+                <div style={textStyle}>
+                    <li style={styleList}>Height: {this.state.personalInfo.height}</li>
+                    {this.state.userType === 'M' && <li style={styleList}>Shirt: {this.state.personalInfo.chest}</li>}
+                    {this.state.userType === 'M' && <li style={styleList}>Suit: {this.state.personalInfo.waist}</li>}
+                    {this.state.userType === 'M' && <li style={styleList}>Inseam: {this.state.personalInfo.eyes}</li>}
+                    {this.state.userType === 'W' && <li style={styleList}>Bust: {this.state.personalInfo.chest}</li>}
+                    {this.state.userType === 'W' && <li style={styleList}>Hips: {this.state.personalInfo.hip}</li>}
+                    {this.state.userType === 'W' && <li style={styleList}>Dress Size: {this.state.personalInfo.dressSize}</li>}
+                    {this.state.userType === 'K' && <li style={styleList}>DOB: {this.state.personalInfo.dob}</li>}
+                    <li style={styleList}>Waist: {this.state.personalInfo.waist}</li>
+                    <li style={styleList}>Eyes: {this.state.personalInfo.eyes}</li>
+                    <li style={styleList}>Hair: {this.state.personalInfo.hair}</li>
+                    <li style={styleList}>Shoes: {this.state.personalInfo.shoes}</li>
+                </div>
+                <div style={Object.assign({}, textStyle, addition)}>{this.state.otherInfo}</div>
+            </div>
         );
     }
 
@@ -208,6 +227,76 @@ export default class StepTwo extends Component {
         } else {
             this.setState({pictureError: true});
         }
+    }
+
+    womenFormFields() {
+        return (
+            <div>
+                <FieldGroup
+                    id="formControlsLast"
+                    type="number"
+                    label="Waist"
+                    required
+                    placeholder="Enter Waist"
+                    onChange={(event) => this.setState({personalInfo: Object.assign(this.state.personalInfo, {waist: event.target.value})})}/>
+                <FieldGroup
+                    id="formControlsLast"
+                    type="number"
+                    label="Bust"
+                    required
+                    placeholder="Enter Chest"
+                    onChange={(event) => this.setState({personalInfo: Object.assign(this.state.personalInfo, {chest: event.target.value})})}/>
+                <FieldGroup
+                    id="formControlsLast"
+                    type="number"
+                    label="Hips"
+                    required
+                    placeholder="Enter Hip"
+                    onChange={(event) => this.setState({personalInfo: Object.assign(this.state.personalInfo, {hip: event.target.value})})}/>
+                <FieldGroup
+                    id="formControlsLast"
+                    type="number"
+                    label="Dress Size"
+                    required
+                    placeholder="Enter Dress Size"
+                    onChange={(event) => this.setState({personalInfo: Object.assign(this.state.personalInfo, {dressSize: event.target.value})})}/>
+            </div>
+        );
+    }
+
+    menFormFields() {
+        return (
+            <div>
+                <FieldGroup
+                    id="formControlsLast"
+                    type="number"
+                    label="Shirt"
+                    required
+                    placeholder="Enter Shirt Measurement"
+                    onChange={(event) => this.setState({personalInfo: Object.assign(this.state.personalInfo, {height: event.target.value})})}/>
+                <FieldGroup
+                    id="formControlsLast"
+                    type="number"
+                    label="Suit"
+                    required
+                    placeholder="Enter Suit Measurement"
+                    onChange={(event) => this.setState({personalInfo: Object.assign(this.state.personalInfo, {height: event.target.value})})}/>
+                <FieldGroup
+                    id="formControlsLast"
+                    type="number"
+                    label="Waist"
+                    required
+                    placeholder="Enter Waist"
+                    onChange={(event) => this.setState({personalInfo: Object.assign(this.state.personalInfo, {waist: event.target.value})})}/>
+                <FieldGroup
+                    id="formControlsLast"
+                    type="number"
+                    label="Inseam"
+                    required
+                    placeholder="Enter Inseam"
+                    onChange={(event) => this.setState({personalInfo: Object.assign(this.state.personalInfo, {inseam: event.target.value})})}/>
+            </div>
+        );
     }
 
     render(){
@@ -254,18 +343,14 @@ export default class StepTwo extends Component {
                                     label="Font Color"/>
                             </fieldset>
                             <fieldset>
-                                <legend>Your Data</legend>
-                                <SelectGroup
-                                    id="formControlsSelectTemplate"
-                                    label="Sex"
-                                    onChange={(event) => this.setState({personalInfo: Object.assign(this.state.personalInfo, {sex: event.target.value})})}
-                                    data={[{
-                                        key: 'Male',
-                                        value: 'Male'
-                                    },{
-                                        key: 'Female',
-                                        value: 'Female'
-                                    }]}/>
+                                <legend>Stats/Measurements</legend>
+                                {!this.state.userType &&
+                                    <RadioGroup
+                                        id="formControlsRadio"
+                                        label="User Type"
+                                        onChange={(event) => this.setState({userType: event.target.value})}
+                                        data={mapUserSelection()}/>
+                                }
                                 <FieldGroup
                                     id="formControlsLast"
                                     type="number"
@@ -273,45 +358,39 @@ export default class StepTwo extends Component {
                                     required
                                     placeholder="Enter Height"
                                     onChange={(event) => this.setState({personalInfo: Object.assign(this.state.personalInfo, {height: event.target.value})})}/>
-                                <FieldGroup
-                                    id="formControlsLast"
-                                    type="number"
-                                    label="Chest"
-                                    required
-                                    placeholder="Enter Chest"
-                                    onChange={(event) => this.setState({personalInfo: Object.assign(this.state.personalInfo, {chest: event.target.value})})}/>
-                                <FieldGroup
-                                    id="formControlsLast"
-                                    type="number"
-                                    label="Waist"
-                                    required
-                                    placeholder="Enter Waist"
-                                    onChange={(event) => this.setState({personalInfo: Object.assign(this.state.personalInfo, {waist: event.target.value})})}/>
-                                <FieldGroup
-                                    id="formControlsLast"
-                                    type="number"
-                                    label="Hip"
-                                    required
-                                    placeholder="Enter Hip"
-                                    onChange={(event) => this.setState({personalInfo: Object.assign(this.state.personalInfo, {hip: event.target.value})})}/>
+                                {this.state.userType === 'M' ?
+                                    this.menFormFields()
+                                    :
+                                    this.state.userType === 'W' ?
+                                        this.womenFormFields()
+                                        :
+                                        this.state.userType === 'K' ?
+                                            <FieldGroup
+                                            id="formControlsLast"
+                                            type="date"
+                                            label="DOB"
+                                            required
+                                            placeholder="Enter Date of Birth"
+                                            onChange={(event) => this.setState({personalInfo: Object.assign(this.state.personalInfo, {dob: event.target.value})})}/> : ''
+                                }
                                 <FieldGroup
                                     id="formControlsLast"
                                     type="text"
-                                    label="Eyes"
+                                    label="Eye Color"
                                     required
                                     placeholder="Enter Eye Color"
                                     onChange={(event) => this.setState({personalInfo: Object.assign(this.state.personalInfo, {eyes: event.target.value})})}/>
                                 <FieldGroup
                                     id="formControlsLast"
                                     type="text"
-                                    label="Hair"
+                                    label="Hair Color"
                                     required
                                     placeholder="Enter Hair Color"
                                     onChange={(event) => this.setState({personalInfo: Object.assign(this.state.personalInfo, {hair: event.target.value})})}/>
                                 <FieldGroup
                                     id="formControlsLast"
                                     type="text"
-                                    label="Shoes"
+                                    label="Shoe Size"
                                     required
                                     placeholder="Enter Shoe size"
                                     onChange={(event) => this.setState({personalInfo: Object.assign(this.state.personalInfo, {shoes: event.target.value})})}/>

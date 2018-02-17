@@ -12,7 +12,7 @@ export default class StepThree extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            onlineCardComp: true,
+            digitalPrint: true,
             printQuantity: 0,
             roundCorner: false,
             envelope: false,
@@ -47,7 +47,8 @@ export default class StepThree extends Component {
                 amountQty: 0,
                 amountPDF: 20,
                 amountIndividual: 0,
-                amountBrand: 0
+                amountBrand: 0,
+                digitalPrintAmount: 10
             },
             imgCheck: {},
             selectedQtyOpt: {},
@@ -68,7 +69,7 @@ export default class StepThree extends Component {
         this.onToggle = this.onToggle.bind(this);
 
         this.printQuantityChange = this.printQuantityChange.bind(this);
-        this.enableBranding = this.enableBranding.bind(this);
+        this.enableDigitalPrint = this.enableDigitalPrint.bind(this);
 
         this.formSubmit = this.formSubmit.bind(this);
         this.submitUserInfo = this.submitUserInfo.bind(this);
@@ -131,11 +132,10 @@ export default class StepThree extends Component {
         this.setState({isLast: tempValue.isLastChange});
     }
 
-    enableBranding(event) {
-        const value = event.target.value === 'true';
+    enableDigitalPrint(state) {
         let tempPrice = Object.assign({}, this.state.price);
-        tempPrice.amountBrand = value ? -3 : 0;
-        this.setState({branding: value, price: tempPrice});
+        tempPrice.digitalPrintAmount = state ? 10 : 0;
+        this.setState({digitalPrint: state, price: tempPrice});
     }
 
     getHexColor(colorStr) {
@@ -251,7 +251,7 @@ export default class StepThree extends Component {
                 fontSize: this.props.stepOneState.state.fontSize,
                 branding: this.props.stepOneState.state.branding !== '0'
             },
-            personalProperties: {
+            PersonalProperties: {
                 totalImages: this.props.stepTwoState.state.amountImages,
                 selectedBGColor: this.props.stepTwoState.state.selectedBGColor,
                 personalInfo: {
@@ -348,20 +348,16 @@ export default class StepThree extends Component {
                                         <fieldset>
                                             <legend>Product Section</legend>
                                             <SwitchToggle
-                                                label="Online Comp Card"
+                                                label="Digital File (Cost - 10$)"
                                                 onText="Yes"
                                                 offText="No"
-                                                onChange={(el, state) => this.setState({onlineCardComp: state})}
+                                                onChange={(el, state) => this.enableDigitalPrint(state)}
                                                 value={this.state.onlineCardComp}
                                                 bsSize="mini"
                                                 name="cardComp"/>
                                             <SelectGroup
                                                 id="formControlsSelectTemplate"
-                                                label="Comp Card file"
-                                                data={[{key: true, value: 'PDF & JPG'}]}/>
-                                            <SelectGroup
-                                                id="formControlsSelectTemplate"
-                                                label="Comp Card print"
+                                                label="Quantity"
                                                 onChange={this.printQuantityChange}
                                                 data={mapCardPrintQty()}/>
                                             <SwitchToggle
@@ -382,14 +378,8 @@ export default class StepThree extends Component {
                                                 value={this.state.envelope}
                                                 bsSize="mini"
                                                 name="envelope"/>
-                                            <SelectGroup
-                                                id="formControlsSelectBranding"
-                                                label="Branding"
-                                                onChange={this.enableBranding}
-                                                data={[{key: false, value: "Without Branding"},
-                                                    {key: true, value: "Model Platform Logo (-3$)"}]}/>
                                             <SwitchToggle
-                                                label="Individual Changes"
+                                                label="Custom Changes"
                                                 onText="Yes"
                                                 offText="No"
                                                 onChange={(el, state) => this.setState({individualChanges: state})}
@@ -651,13 +641,13 @@ export default class StepThree extends Component {
                                             </div>
                                         </div>
                                         }
-                                        {this.state.onlineCardComp &&
+                                        {this.state.digitalPrint &&
                                         <div className="container-fluid row">
                                             <div className="col-md-8">
-                                                <div style={{textAlign: 'left'}}>Online Comp Card</div>
+                                                <div style={{textAlign: 'left'}}>Digital File ( Cost - 10$)</div>
                                             </div>
                                             <div className="col-md-4">
-                                                <div style={{textAlign: 'Right'}}>0.00 $</div>
+                                                <div style={{textAlign: 'Right'}}>10.00 $</div>
                                             </div>
                                         </div>
                                         }

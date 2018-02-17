@@ -1,5 +1,5 @@
 import React from 'react';
-import {FormGroup, FormControl, ControlLabel, HelpBlock, Col} from 'react-bootstrap';
+import {FormGroup, FormControl, ControlLabel, HelpBlock, Col, ButtonGroup, Button} from 'react-bootstrap';
 import { CountryDropdown } from 'react-country-region-selector';
 import Switch from 'react-bootstrap-switch';
 import './FieldGroup.css';
@@ -32,6 +32,25 @@ export const SelectGroup = ({id, label, data, labelSize, componentSize, noLabel,
                     })
                 }
             </FormControl>
+        </Col>
+    </FormGroup>
+);
+
+export const RadioGroup = ({id, label, onChange, data}) => (
+    <FormGroup controlId={id}>
+        <Col componentClass={ControlLabel} md={4}>
+            {label}
+        </Col>
+        <Col md={8}>
+            <ButtonGroup>
+            {
+                data.map((val, index) => {
+                    return (
+                        <Button onClick={(event) =>onChange(event)} name="radio" value={val.key}>{val.value}</Button>
+                    )
+                })
+            }
+            </ButtonGroup>
         </Col>
     </FormGroup>
 );

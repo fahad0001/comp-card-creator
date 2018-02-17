@@ -304,8 +304,7 @@ export const mapAmountImages = () => [
         ],
         textStyle: {
             display: 'flex',
-            justifyContent: 'space-around',
-            width: '420px',
+            justifyContent: 'space-between',
             overflow: 'hidden',
             color: '#d9d9d9',
             textAlign: 'left',
@@ -395,9 +394,9 @@ export const mapAmountImages = () => [
         ],
         textStyle: {
             display: 'flex',
-            justifyContent: 'space-around',
-            width: '420px',
+            justifyContent: 'space-between',
             overflow: 'hidden',
+            listStyleType: 'none',
             color: '#d9d9d9',
             textAlign: 'left',
             fontSize: 12
@@ -486,9 +485,9 @@ export const mapAmountImages = () => [
         ],
         textStyle: {
             display: 'flex',
-            justifyContent: 'space-around',
-            width: '420px',
+            justifyContent: 'space-between',
             overflow: 'hidden',
+            listStyleType: 'none',
             color: '#d9d9d9',
             textAlign: 'left',
             fontSize: 12
@@ -614,9 +613,10 @@ export const mapAmountImages = () => [
             justifyContent: 'space-around',
             width: '420px',
             overflow: 'hidden',
+            listStyleType: 'none',
             color: '#d9d9d9',
             textAlign: 'left',
-            marginTop: '5px',
+            marginTop: '-10px',
             fontSize: 12
         }
     }, {
@@ -757,9 +757,10 @@ export const mapAmountImages = () => [
             justifyContent: 'space-around',
             width: '420px',
             overflow: 'hidden',
+            listStyleType: 'none',
             color: '#d9d9d9',
             textAlign: 'left',
-            marginTop: '5px',
+            marginTop: '-10px',
             fontSize: 12
         }
     }, {
@@ -917,9 +918,10 @@ export const mapAmountImages = () => [
             justifyContent: 'space-around',
             width: '420px',
             overflow: 'hidden',
+            listStyleType: 'none',
             color: '#d9d9d9',
             textAlign: 'left',
-            marginTop: '5px',
+            marginTop: '-10px',
             fontSize: 12
         }
     }, {
@@ -930,7 +932,7 @@ export const mapAmountImages = () => [
             display: 'flex',
             flexWrap: 'wrap',
             justifyContent: 'start',
-            paddingLeft: '10px',
+            paddingLeft: '15px',
             paddingTop: '20px'
         },
         imageDivStyle: [
@@ -1091,13 +1093,26 @@ export const mapAmountImages = () => [
         ],
         textStyle: {
             display: 'flex',
-            justifyContent: 'space-around',
-            width: '420px',
+            justifyContent: 'space-between',
             overflow: 'hidden',
+            listStyleType: 'none',
             color: '#d9d9d9',
             textAlign: 'left',
-            marginTop: '5px',
+            marginTop: '-10px',
             fontSize: 12
         }
+    }
+];
+
+export const mapUserSelection = () => [
+    {
+        key: 'K',
+        value: 'Kid'
+    }, {
+        key: 'M',
+        value: 'Men'
+    }, {
+        key: 'W',
+        value: 'Women'
     }
 ];
